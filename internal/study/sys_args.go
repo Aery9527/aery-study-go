@@ -1,7 +1,7 @@
 package study
 
 import (
-	"aery-study-go/util"
+	utilsalias "aery-study-go/pkg/utils"
 	"flag"
 	"fmt"
 	"os"
@@ -11,12 +11,12 @@ import (
 func ShowArgs() {
 	//os.Args[0] = "Aery Handsome~~~" // XXX 居然是可變的!?
 	cmdArgs := os.Args // 取得 cmd 傳進來的參數, [0] 永遠是當前執行檔案完整路徑與名稱, [1] 開始才是傳進來的參數 (這樣挺不錯的, 夠直覺)
-	lineSeparator := util.GetSystemLineSeparator()
+	lineSeparator := utilsalias.GetSystemLineSeparator()
 	fmt.Printf("參數列表：%s%s\n", lineSeparator, strings.Join(cmdArgs, lineSeparator))
 	fmt.Println()
 
 	// 使用 flag 套件來解析命令列參數, cmd 格式為 -key=value, 遇到非這個格式就會停下不解析往後的參數了
-	//flag.Parse() // error at here, 因為沒有先把所有key給接起來
+	// flag.Parse() // error at here, 因為沒有先把所有key給接起來
 	name := flag.String("name", "黑山老妖", "名字")
 	age := flag.Int("age", 9527, "年齡")
 	//height := flag.Int("age", 0, "身高") // 所有出現的參數都要接下否則會報錯, 因為 flag 屬於"強驗證型"套件

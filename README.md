@@ -1,3 +1,5 @@
+### 與 java 的概觀比較
+
 |         | go                | java         |                                                                                                                                                                                                                                                                                                                                                   |
 |---------|-------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 編譯器     | go compiler       | javac + JVM  | - go 使用自家編寫的編譯器(gc, Go Compiler), 透過 `go build` 將 source code 編譯成 native binary 直接跑在 OS 上 <br/> - go 編譯速度極快, 大型專案也能在幾秒內編譯完成, 還有 Go modules + increment build system 加速重複編譯 <br/> - go 是 AOT(Ahead Of Time) compiler, 在執行前會一次編譯所有 source code 為 "一個" native binary 檔案 <br/> - go 指定編譯平台 `GOOS=linux GOARCH=amd64 go build -o my_app_linux main.go` |
@@ -7,15 +9,57 @@
 | GC      | 在自帶的 runtime 裡    | 依賴 JVM       | 狀況同上                                                                                                                                                                                                                                                                                                                                              |
 | 速度      | AOT               | JIT          | - go 透過 AOT 提前準備好一切, 第一次編譯好直接使用<br/> - java 透過 JIT 才跑得快, 但相對的啟動就慢                                                                                                                                                                                                                                                                                 |
 
+### 業界慣用專案目錄結構
+
+```
+myapp/
+├── cmd/               # 主應用程式的進入點 (可有多個子命令)
+│   └── myapp/         # 一個 CLI 或 Web App 的主程式 (main.go)
+├── internal/          # 私有封裝，不能被其他專案 import
+│   └── foo/           # 內部的商業邏輯模組
+├── pkg/               # 可以被外部專案使用的公用模組
+│   └── utils/         # 例如工具函式、通用 helper
+├── api/               # API 定義：OpenAPI/Proto 文件、DTO 定義等
+│   ├── v1/            # API v1 定義與資料結構
+├── configs/           # 設定檔 (YAML、JSON、ENV...)
+├── scripts/           # 自動化腳本 (如 build.sh, migrate.sh)
+├── deployments/       # Docker、Kubernetes、CI/CD 部署相關
+├── web/               # 如果有前端資源，例如 HTML/JS/CSS
+├── test/              # 整合測試或測試資源
+├── go.mod
+└── README.md
+```
+
 - 執行入口一定要 `package main`, 且該 package 只能有一個 `main` 函式, 否則會報錯
 - `package main` 是特殊的 package, 只能當作程式進入點, 無法被其他 package 引用
-- package 跟 folder 沒有正相關, 但習慣上一樣維持 folder 跟 package 相同, 方便管理與理解
+- package 不能有巢狀命名(GO哲學), 所以當多維度交錯時則應該以 **領域** 為主, 例如 user/order 跟 service/repository 交錯時, 應以 user/order 為 package
+  劃分
+  ```
+  internal/
+  ├── user/
+  │   ├── service.go        // package user
+  │   ├── repository.go     // package user
+  │   └── model.go          // package user
+  ├── order/
+  │   ├── service.go        // package order
+  │   ├── repository.go     // package order
+  │   └── model.go          // package order
+  ```
+  > 這樣 package 就以 **領域**(user/order) 劃分所有面向(SRP), 業務邏輯就可以內斂. \
+  > 若以 **角色**(service/repository) 劃分 package, 業務邏輯就會被分散, 過度抽象化. \
+  > **領域** **角色** 可以簡單用 **業務需求** 或 **系統需求** 來區分:
+  > - user/order: 是業務邏輯劃分出來的 **領域** 概念
+  > - service/repository: 是程式系統操作上劃分出來的 **角色** 概念.
+- go 的 package 概念有點像 java 的 "一個" class, 儘管散在不同 file 裡, 但它就是相同 scope 的概念
+- package: 一律小寫避免複數與底線, 跟 folder 沒有正相關, 但習慣上一樣維持 folder 跟 package 相同, 方便管理與理解
+- file: 不建議camelCase, 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線
+- var/method: camelCase(`getUserByID()`, `getUserByIDAndName()`), 只要是大寫開頭就是 public, 小寫開頭就是 private 的概念
+- struct/interface: PascalCase(`OrderItem `, `UserService`), 命名結構建議為 **領域 + 行為**
 - 沒有三元判斷子, 沒有 `() -> {}` 的 lambda 語法糖
--
 
-|         | go             | java            |                                       |
-|---------|----------------|-----------------|---------------------------------------|
-| package | 跟 folder 沒有正相關 | 必須跟 folder 相同結構 | 但習慣上一樣維持 folder 跟 package 相同, 方便管理與理解 |
+---
+
+
 
 ---
 
