@@ -6,12 +6,15 @@ import (
 )
 
 func main() {
-	wrap_print("ShowArgs", func() { study.ShowArgs() })
-	wrap_print("ShowVar", func() { study.ShowVar() })
+	wrapPrint("ShowArgs", study.ShowArgs) // 把 method 當作參數傳入
+	wrapPrint("ShowVar", func() { study.ShowVar(1, "2", 3.14, true, byte(1)) })
+	wrapPrint("ShowIf", func() { study.ShowIf(10, func() int { return 1 }) })
+	wrapPrint("ShowSwitch", func() { study.ShowSwitch("Blue Monday") })
+	wrapPrint("ShowFor", study.ShowFor)
 }
 
-func wrap_print(scope string, action func()) {
+func wrapPrint(scope string, action func()) {
+	fmt.Println()
 	fmt.Printf("===== %s =====\n", scope)
 	action()
-	fmt.Println()
 }

@@ -3,9 +3,11 @@ package study
 import (
 	"fmt"
 	"reflect"
+	"strings"
 )
 
 // package-level variable, 類比 java 的 static field 概念
+// 大寫開頭就是 public, 小寫開頭就是 private, 僅有這種兩種可見性
 
 // 整數型態
 var _int8 int8
@@ -25,8 +27,8 @@ var _float32 float32
 var _float64 float64 // default
 
 // 複數(Complex Numbers)
-var _complex64 complex64              // float32 實部 + 虛部
-var _complex128 complex128 = 95 + 27i // float64 實部 + 虛部
+var _complex64 complex64   // float32 實部 + 虛部
+var _complex128 = 95 + 27i // float64 實部 + 虛部
 
 // other
 var _byte byte // uint8 的別名 (type byte = uint8)
@@ -38,17 +40,25 @@ var _string string = "字串"
 // Rune 是北歐古代用來寫字的"符文", 每個符號都代表一個意思, 所以用這個詞來代表一個"Unicode code point(字元的唯一代碼編號)"
 var _rune rune = '😎' // int32 的別名 (type rune = int32), 因為是 4 bytes 所以完整支援 unicode
 
-func ShowVar() {
-	a := 123        // block scope 才能使用 := 語法糖
-	b := float64(a) // 轉型
-	fmt.Printf("a: %d (%T)\n", a, a)
-	fmt.Printf("b: %f (%T)\n", b, b)
+const FORMAT = "%-20s: "
+
+func ShowVar(args ...any) { // 1.18 新增 any, 是 interface{} 的別名, 這樣寫比較簡潔, 所以也可以寫 interface{}
+	result := make([]string, len(args))
+	for i, arg := range args {
+		result[i] = fmt.Sprintf("%v(%T)", arg, arg)
+	}
+	fmt.Printf(FORMAT+"[%s]\n", "args", strings.Join(result, ", "))
+
+	a := 123                                  // block scope 才能使用 := 語法糖
+	b := float64(a)                           // 轉型
+	fmt.Printf(FORMAT+"%d (%T)\n", "a", a, a) // %T 直接顯示型態
+	fmt.Printf(FORMAT+"%f (%T)\n", "b", b, b)
 
 	// reflect.TypeOf 取得型態
-	fmt.Printf("_int: %d (%s)\n", _int, reflect.TypeOf(_int))
-	fmt.Printf("_uint: %d (%s)\n", _uint, reflect.TypeOf(_uint))
-	fmt.Printf("_byte: %d (%s)\n", _byte, reflect.TypeOf(_byte))                // type 是 uint8, 因為 byte 是 uint8 的別名
-	fmt.Printf("_complex64: %v (%s)\n", _complex64, reflect.TypeOf(_complex64)) // %v 是萬用型的格式化符號, Go 會自動處理各種型別
-	fmt.Printf("_complex128: %v (%s)\n", _complex128, reflect.TypeOf(_complex128))
+	fmt.Printf(FORMAT+"%d (%s)\n", "_int", _int, reflect.TypeOf(_int))
+	fmt.Printf(FORMAT+"%d (%s)\n", "_uint", _uint, reflect.TypeOf(_uint))
+	fmt.Printf(FORMAT+"%d (%s)\n", "_byte", _byte, reflect.TypeOf(_byte))                // type 是 uint8, 因為 byte 是 uint8 的別名
+	fmt.Printf(FORMAT+"%v (%s)\n", "_complex64", _complex64, reflect.TypeOf(_complex64)) // %v 是萬用型的格式化符號, Go 會自動處理各種型別
+	fmt.Printf(FORMAT+"%v (%s)\n", "_complex128", _complex128, reflect.TypeOf(_complex128))
 
 }

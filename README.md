@@ -56,6 +56,8 @@ myapp/
 - var/method: camelCase(`getUserByID()`, `getUserByIDAndName()`), 只要是大寫開頭就是 public, 小寫開頭就是 private 的概念
 - struct/interface: PascalCase(`OrderItem `, `UserService`), 命名結構建議為 **領域 + 行為**
 - 沒有三元判斷子, 沒有 `() -> {}` 的 lambda 語法糖
+- 所有型態皆可以是是 `interface` (類似 java `Object` 概念), 1.18 之後則可使用 any 替代 (any 是 interface 的別名)
+- **go.mod** 定義用了哪些 module/版本是多少(類似 maven pom.xml), **go.sum** 是記錄這些 module 的內容 checksum< 確保下載來的沒被改動, 像是"防毒碼表"
 
 ---
 
