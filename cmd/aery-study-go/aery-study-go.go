@@ -12,6 +12,7 @@ func main() {
 	wrapPrint("ShowSwitch", func() { study.ShowSwitch("Blue Monday") })
 	wrapPrint("ShowFor", study.ShowFor)
 	wrapPrint("ShowFunc", study.ShowFunc)
+	wrapPrint("ShowNil", study.ShowNil)
 }
 
 func wrapPrint(scope string, action func()) {
