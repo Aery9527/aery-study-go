@@ -45,19 +45,23 @@ myapp/
   │   ├── repository.go     // package order
   │   └── model.go          // package order
   ```
-  > 這樣 package 就以 **領域**(user/order) 劃分所有面向(SRP), 業務邏輯就可以內斂. \
+  > 這樣就以 **領域**(user/order) 劃分所有面向(SRP), 業務邏輯就可以內斂. \
   > 若以 **角色**(service/repository) 劃分 package, 業務邏輯就會被分散, 過度抽象化. \
   > **領域** **角色** 可以簡單用 **業務需求** 或 **系統需求** 來區分:
   > - user/order: 是業務邏輯劃分出來的 **領域** 概念
   > - service/repository: 是程式系統操作上劃分出來的 **角色** 概念.
 - go 的 package 概念有點像 java 的 "一個" class, 儘管散在不同 file 裡, 但它就是相同 scope 的概念
-- package: 一律小寫避免複數與底線, 跟 folder 沒有正相關, 但習慣上一樣維持 folder 跟 package 相同, 方便管理與理解
+- package: 一律小寫避免複數與底線, 與 folder 沒有正相關, 但習慣上一樣維持 folder 跟 package 相同, 方便管理與理解
 - file: 不建議camelCase, 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線
 - var/method: camelCase(`getUserByID()`, `getUserByIDAndName()`), 只要是大寫開頭就是 public, 小寫開頭就是 private 的概念
 - struct/interface: PascalCase(`OrderItem `, `UserService`), 命名結構建議為 **領域 + 行為**
 - 沒有三元判斷子, 沒有 `() -> {}` 的 lambda 語法糖
-- 所有型態皆可以是是 `interface` (類似 java `Object` 概念), 1.18 之後則可使用 any 替代 (any 是 interface 的別名)
-- **go.mod** 定義用了哪些 module/版本是多少(類似 maven pom.xml), **go.sum** 是記錄這些 module 的內容 checksum< 確保下載來的沒被改動, 像是"防毒碼表"
+- 所有型態皆可以是 `interface` (類似 java `Object` 概念), 1.18 之後則可使用 any 替代 (any 是 interface 的別名)
+- **go.mod** 定義用了哪些 module/版本是多少(類似 maven pom.xml), **go.sum** 是記錄這些 module 的內容 checksum 確保下載來的沒被改動
+- Go 採用 MVS (Minimal Version Selection) 的版本解決策略, 例如 A 相依 C:v1.1, B 相依 C:v1.2, 那麼整體會使用 C:v1.2, 因為不支援多版本共存
+- 為避免上述的 A 使用到 C:v1.2 而炸掉, 所以 Go 社群推崇 semver (Semantic Versioning, 語意化版本), 也就是說小版號不應該有 breaking change,
+  而是不向下相容時跳大版號, 因此不同版號而炸掉是開發者的問題!
+- GO 的 method 可以有多個回傳值, exception 也是透過多個回傳值回傳
 
 ---
 
