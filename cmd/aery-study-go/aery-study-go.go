@@ -13,6 +13,8 @@ func main() {
 	wrapPrint("ShowArray", variable.ShowArray)
 	wrapPrint("ShowSlice", variable.ShowSlice)
 	wrapPrint("ShowMap", variable.ShowMap)
+	wrapPrint("ShowMake", study.ShowMake)
+	wrapPrint("ShowNew", study.ShowNew)
 	wrapPrint("ShowIf", func() { study.ShowIf(10, func() int { return 1 }) })
 	wrapPrint("ShowSwitch", func() { study.ShowSwitch("Blue Monday") })
 	wrapPrint("ShowFor", study.ShowFor)

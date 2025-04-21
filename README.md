@@ -55,7 +55,7 @@ myapp/
 - file: 不建議camelCase, 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線
 - var/method: camelCase(`getUserByID()`, `getUserByIDAndName()`), 只要是大寫開頭就是 public, 小寫開頭就是 private 的概念
 - struct/interface: PascalCase(`OrderItem `, `UserService`), 命名結構建議為 **領域 + 行為**
-- 沒有三元判斷子, 沒有 `() -> {}` 的 lambda 語法糖
+- 沒有三元判斷子, 沒有 `() -> {}` 的 lambda 語法糖, 沒有方法多載
 - 所有型態皆可以是 `interface` (類似 java `Object` 概念), 1.18 之後則可使用 any 替代 (any 是 interface 的別名)
 - **go.mod** 定義用了哪些 module/版本是多少(類似 maven pom.xml), **go.sum** 是記錄這些 module 的內容 checksum 確保下載來的沒被改動
 - Go 採用 MVS (Minimal Version Selection) 的版本解決策略, 例如 A 相依 C:v1.1, B 相依 C:v1.2, 那麼整體會使用 C:v1.2, 因為不支援多版本共存

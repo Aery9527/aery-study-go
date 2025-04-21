@@ -1,8 +1,8 @@
 package variable
 
 import (
+	"aery-study-go/pkg/utils"
 	"fmt"
-	"runtime"
 )
 
 func ShowMap() {
@@ -16,30 +16,25 @@ func ShowMap() {
 	fmt.Printf("m type: %T\n", m)
 	fmt.Printf("m1 type: %T\n", m1)
 
-	printAnchor := func() {
-		_, file, line, _ := runtime.Caller(1)
-		fmt.Printf("at %s:%d\n", file, line)
-	}
-
-	printAnchor()
+	utils.PrintWhere()
 	printMap("m1", m1)
 
-	printAnchor()
+	utils.PrintWhere()
 	m1["a"] = 1 // 賦值
 	m1["b"] = 2
 	printMap("m1", m1)
 
-	printAnchor()
+	utils.PrintWhere()
 	delete(m1, "b") // 刪除 XXX 居然沒回傳值? 爛透了~
 	printMap("m1", m1)
 
-	printAnchor()
+	utils.PrintWhere()
 	a, aExist := m1["a"] // map 有兩個回傳值
 	b, bExist := m1["b"]
 	fmt.Printf("m1[%s] = %d %t\n", "a", a, aExist)
 	fmt.Printf("m1[%s] = %d %t\n", "b", b, bExist)
 
-	printAnchor()
+	utils.PrintWhere()
 	m2 := m1
 	m2["c"] = 3 // 與 m1 指向同一個 map, 所以 m1 也會改變
 	printMap("m1", m1)
