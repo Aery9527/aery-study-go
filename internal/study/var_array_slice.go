@@ -2,6 +2,7 @@ package study
 
 import (
 	"fmt"
+	"reflect"
 )
 
 // array 宣告方式, 大小固定不能變動
@@ -53,6 +54,9 @@ func ShowSlice() {
 	fmt.Printf("&s12 == &s02:%v\n", &s12 == &s02) // slice 只能比較指標, 不能比較內容
 	fmt.Printf("&s12 == &s03:%v\n", &s12 == &s03)
 	fmt.Printf("&s02 == &s03:%v\n", &s02 == &s03) // 雖然都是指向 a4 這個 array 的起點位置, 但其實是兩個 slice header 實體
+	// reflect.DeepEqual() 深度比較內容是否相同但效能差(走 interface 與 reflect), 所以效能場景還是自己寫比對較快
+	fmt.Printf("a4    == s03:%v\n", reflect.DeepEqual(a4, s03)) // 型態不同直接 false
+	fmt.Printf("a4[:] == s03:%v\n", reflect.DeepEqual(a4[:], s03))
 
 	fmt.Println()
 	s5 := make([]int, 2, 3)
