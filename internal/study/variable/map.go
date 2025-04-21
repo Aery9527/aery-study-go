@@ -1,4 +1,4 @@
-package study
+package variable
 
 import (
 	"fmt"

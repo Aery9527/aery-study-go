@@ -31,9 +31,9 @@ func ShowNil() {
 	fmt.Println("interface with nil pointer == nil:", i2 == nil)
 
 	// 永遠都有值, 不允許 nil 判斷
-	//var a int    // 基本型別
-	//var b Person // struct
-	//var c [3]int // array
+	//variable a int    // 基本型別
+	//variable b Person // struct
+	//variable c [3]int // array
 }
 
 type Person struct {
