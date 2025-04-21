@@ -74,5 +74,4 @@ func ShowVar(args ...any) { // 1.18 新增 any, 是 interface{} 的別名, 這�
 	if err != nil {
 		fmt.Println(err)
 	}
-
 }

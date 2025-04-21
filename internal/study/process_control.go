@@ -1,6 +1,9 @@
 package study
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func ShowIf(x int, y func() int) {
 	if x > 10 {
@@ -40,6 +43,27 @@ func ShowSwitch(day string) {
 	default:
 		fmt.Println("不及格")
 	}
+}
+
+func ShowGoto() int {
+	// goto 不能跨 function 跳, 不能跳進 block, 只能跳到同一層裡面定義的 label, 所以不大會造成以前常見的跳轉地獄
+	// 之所以保留 goto 是在某些性能極端敏感的程式碼區塊能避開函式呼叫開銷, 或幫助生成更佳的機器碼
+	// Go 的設計者(像是 Ken Thompson)是寫作業系統的大神, 對這種精確控制流程的能力非常執著
+	// 而且有時候善用 goto 可以避免一堆巢狀 if-else 的情況達成有條理地跳轉
+
+	file, err := os.Open("file.txt")
+	if err != nil {
+		goto ERROR
+	}
+
+	// do something with file
+
+	file.Close()
+	return 0
+
+ERROR: // label 有區分大小寫
+	fmt.Println("Something went wrong:", err)
+	return 1
 }
 
 // ShowFor for 是唯一迴圈關鍵字

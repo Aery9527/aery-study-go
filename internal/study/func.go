@@ -19,6 +19,10 @@ func ShowFunc() {
 	} else {
 		fmt.Printf("result: %s\n", result)
 	}
+
+	x := 1
+	pointerTest(&x) // 傳址, 參考型別
+	fmt.Printf("x: %d\n", x)
 }
 
 func divide(a, b int) (int, int) {
@@ -36,15 +40,19 @@ func deferTest() (x int, y string) {
 	// defer 在當前 func 結束後, 但真正 return 前執行
 	// 只可以影響 "命名回傳值" 的內容, 多個 defer 採 LIFO(後進先出) 執行
 	// 使用情境:想統一加 log/metrics(但不影響回傳值)/安全清理資源/優雅地處理error/recover
-	defer func() {
+	defer func() { // 後執行
 		x += 10
 		y += "?"
 	}()
-	defer func() {
+	defer func() { // 先執行
 		x += 2
 		y += "!"
 	}()
 	return
+}
+
+func pointerTest(a *int) {
+	*a += 1
 }
 
 // 錯誤用回傳值處理
