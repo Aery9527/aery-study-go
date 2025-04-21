@@ -8,6 +8,9 @@ import (
 func main() {
 	wrapPrint("ShowArgs", study.ShowArgs) // 把 method 當作參數傳入
 	wrapPrint("ShowVar", func() { study.ShowVar(1, "2", 3.14, true, byte(1)) })
+	wrapPrint("ShowIota", study.ShowIota)
+	wrapPrint("ShowArray", study.ShowArray)
+	wrapPrint("ShowSlice", study.ShowSlice)
 	wrapPrint("ShowIf", func() { study.ShowIf(10, func() int { return 1 }) })
 	wrapPrint("ShowSwitch", func() { study.ShowSwitch("Blue Monday") })
 	wrapPrint("ShowFor", study.ShowFor)
