@@ -1,6 +1,7 @@
 package main
 
 import (
+	"aery-study-go/internal/study"
 	"aery-study-go/internal/study/variable"
 	"fmt"
 	// . "fmt" 就像 java 的 import static 一樣, 這樣就可以直接用 Println() 了
@@ -20,25 +21,29 @@ func init() {
 }
 
 func main() {
-	//wrapPrint("ShowArgs", study.ShowArgs) // 把 method 當作參數傳入
-	//wrapPrint("ShowVar", func() { variable.ShowVar(1, "2", 3.14, true, byte(1)) })
-	//wrapPrint("ShowIota", variable.ShowIota)
-	//wrapPrint("ShowArray", variable.ShowArray)
-	//wrapPrint("ShowSlice", variable.ShowSlice)
-	//wrapPrint("ShowMap", variable.ShowMap)
+	wrapPrint("ShowArgs", study.ShowArgs) // 把 method 當作參數傳入
+	wrapPrint("ShowVar", func() { variable.ShowVar(1, "2", 3.14, true, byte(1)) })
+	wrapPrint("ShowIota", variable.ShowIota)
+	wrapPrint("ShowArray", variable.ShowArray)
+	wrapPrint("ShowSlice", variable.ShowSlice)
+	wrapPrint("ShowMap", variable.ShowMap)
 	wrapPrint("ShowStruct", variable.ShowStruct)
-	//wrapPrint("ShowMake", study.ShowMake)
-	//wrapPrint("ShowNew", study.ShowNew)
-	//wrapPrint("ShowNil", study.ShowNil)
-	//wrapPrint("ShowIf", func() { study.ShowIf(10, func() int { return 1 }) })
-	//wrapPrint("ShowSwitch", func() { study.ShowSwitch("Blue Monday") })
-	//wrapPrint("ShowGoto", func() { study.ShowGoto() })
-	//wrapPrint("ShowFor", study.ShowFor)
-	//wrapPrint("ShowFunc", study.ShowFunc)
-	//wrapPrint("ShowPanic", study.ShowPanic)
+	wrapPrint("ShowMake", study.ShowMake)
+	wrapPrint("ShowNew", study.ShowNew)
+	wrapPrint("ShowNil", study.ShowNil)
+	wrapPrint("ShowIf", func() { study.ShowIf(10, func() int { return 1 }) })
+	wrapPrint("ShowSwitch", func() { study.ShowSwitch("Blue Monday") })
+	wrapPrint("ShowGoto", func() { study.ShowGoto() })
+	wrapPrint("ShowFor", study.ShowFor)
+	wrapPrint("ShowFunc", study.ShowFunc)
+	wrapPrint("ShowPanic", study.ShowPanic)
 }
 
 type show func() // 定義一個 func 型別的變數, 這樣就可以當作參數傳入, 跟 java lambda 一樣可以把 method 當參數丟來丟去
+
+// type 像是別名的意思
+type age int      // 像這樣把基本型別賦予一個領域意義
+var aery age = 18 // 搭配變數名稱就可以產生 2 個維度含意, 也就是利用程式寫法把意義大致說明清楚了, 可以大幅減少註解說明
 
 func wrapPrint(scope string, action show) {
 	fmt.Println()

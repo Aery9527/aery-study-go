@@ -14,6 +14,16 @@ type student struct {
 	age    int // 匿名欄位重複並不衝突, 因為處在不同 scope
 }
 
+// 物件導向, func 是額外寫的掛在 person 身上, 前面的那個 () 就稱為 receiver
+// func 定義跟
+func (p person) string() string { // pass by value
+	return fmt.Sprintf("name: %s, age: %d", p.name, p.age)
+}
+
+func (s *student) string() string { // pass by reference
+	return fmt.Sprintf("name: %s, age: %d", s.name, s.age)
+}
+
 func ShowStruct() {
 	var p1 person
 	p1.age, p1.name = 20, "Aery"
@@ -51,6 +61,11 @@ func ShowStruct() {
 	s.age = 10           // 存取 student 內的 age
 	s.person.age = 11    // 存取 person 內的 age
 	fmt.Printf("student: %v\n", s)
+
+	fmt.Println() // func 也有一樣 scope 概念
+	fmt.Printf("p1.string()       : %s\n", p1.string())
+	fmt.Printf("s.string()        : %s\n", s.string())
+	fmt.Printf("s.person.string() : %s\n", s.person.string())
 }
 
 func older(p1, p2 person) (person, int) {
