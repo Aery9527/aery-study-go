@@ -35,13 +35,13 @@ func ShowNew() {
 	fmt.Println("int i:", *i)
 
 	// new 分配空間給一個自訂 struct
-	p := new(Point)
+	p := new(point)
 	p.X = 10
 	p.Y = 20
-	fmt.Printf("Point p: %+v\n", *p)
+	fmt.Printf("point p: %+v\n", *p)
 }
 
-type Point struct {
+type point struct {
 	X int
 	Y int
 }

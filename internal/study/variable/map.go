@@ -44,3 +44,9 @@ func ShowMap() {
 func printMap[K comparable, V any](name string, m map[K]V) {
 	fmt.Printf("%s(%d) %v\n", name, len(m), m)
 }
+
+func modifyMap(m map[int]string) {
+	m[1] = "a"
+	m[2] = "b"
+	m[3] = "c"
+}

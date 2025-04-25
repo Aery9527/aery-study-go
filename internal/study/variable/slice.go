@@ -5,58 +5,32 @@ import (
 	"reflect"
 )
 
-// array 宣告方式, 大小固定不能變動
-var a1 [1]int
-var a2 = [2]int{1, 2}
-var a3 = [3]int{1, 2}         // 沒賦值的就是預設值, int 就是0
-var a4 = [...]int{1, 2, 3, 4} // 透過賦值決定陣列大小
-var aa = [3][4]int{           // 可以寫[...][4], 但不能寫[...][...], 因為第二層開始無法透過定義推斷陣列大小
-	{1, 2, 3, 4},
-	{5, 6, 7},
-} // 二維陣列
-var aaa = [...][2][2]int{
-	{{1, 1}, {2}},
-	{{}, {}},
-} // 三維陣列, 第一層大小透過定義推斷
-
 // slice 宣告方式, 大小可以變動, 類似 java 的 List<>
 // 它不是真正意義上的動態陣列, 而是一個 reference type, 指向一個底層 array
 // slice 是個結構, 包含三個欄位: 指向底層 array 的指標、slice 的長度、slice 的容量
 var s0 []int // 宣告方式跟 array 只是[]內沒有數字, 則型態就會是 slice
 
-func ShowArray() {
-	// 長度也是型別的一部份, 所以這邊顯示的 type 是帶長度的, 也就是說他們是不同型別
-	fmt.Printf("a1:%v type(%T) len(%d) cap(%d)\n", a1, a1, len(a1), cap(a1))
-	fmt.Printf("a2:%v type(%T) len(%d) cap(%d)\n", a2, a2, len(a2), cap(a2))
-	fmt.Printf("a3:%v type(%T) len(%d) cap(%d)\n", a3, a3, len(a3), cap(a3))
-	fmt.Printf("a4:%v type(%T) len(%d) cap(%d)\n", a4, a4, len(a4), cap(a4))
-	fmt.Printf("aa:%v type(%T) len(%d) cap(%d)\n", aa, aa, len(aa), cap(aa))
-	fmt.Printf("aaa:%v type(%T) len(%d) cap(%d)\n", aaa, aaa, len(aaa), cap(aaa))
-
-	A1 := a1 // array 重新賦值會複製整個 array, 其比對也是完整比對內容相等
-	fmt.Printf("A1 == a2:%v\n", A1 == a1)
-	a1[0] = 9 // a1 改變了, A1 不會改變
-	fmt.Printf("a1:%v\n", a1)
-	fmt.Printf("A1:%v\n", A1)
-	fmt.Printf("A1 == a2:%v\n", A1 == a1)
-}
-
 func ShowSlice() {
+	fmt.Printf("%d", a)       // 吃到 package 的全域變數
+	a := [...]int{1, 2, 3, 4} // 這個 scope 重新定義了 a
+	fmt.Printf("%d", a)       // 所以這邊開始會使用到的是 a
+	// 如果要重新再取得全域變數a, 則需要透過 func 包裝提供出來
+
 	fmt.Println()
-	s12 := a4[1:3] // 生成 slice 為指向 a4 的 1~2
-	s02 := a4[:3]  // 生成 slice 為指向 a4 的 0~2, 從第一個元素[0]開始
-	s03 := a4[:]   // 生成 slice 為指向 a4 的 0~3, 從第一個元素[0]開始, 到最後一個元素[3]結束
-	a4[1] = 0      // 所以這邊 a4[1] 改變了, 上面幾個 slice 也會改變
-	fmt.Printf("a4:%v type(%T)\n", a4, a4)
+	s12 := a[1:3] // 生成 slice 為指向 a 的 1~2
+	s02 := a[:3]  // 生成 slice 為指向 a 的 0~2, 從第一個元素[0]開始
+	s03 := a[:]   // 生成 slice 為指向 a 的 0~3, 從第一個元素[0]開始, 到最後一個元素[3]結束
+	a[1] = 0      // 所以這邊 a[1] 改變了, 上面幾個 slice 也會改變
+	fmt.Printf("a:%v type(%T)\n", a, a)
 	fmt.Printf("s12:%v type(%T) len(%d) cap(%d)\n", s12, s12, len(s12), cap(s12))
 	fmt.Printf("s02:%v type(%T) len(%d) cap(%d)\n", s02, s02, len(s02), cap(s02))
 	fmt.Printf("s03:%v type(%T) len(%d) cap(%d)\n", s03, s03, len(s03), cap(s03))
 	fmt.Printf("&s12 == &s02:%v\n", &s12 == &s02) // slice 只能比較指標, 不能比較內容
 	fmt.Printf("&s12 == &s03:%v\n", &s12 == &s03)
-	fmt.Printf("&s02 == &s03:%v\n", &s02 == &s03) // 雖然都是指向 a4 這個 array 的起點位置, 但其實是兩個 slice header 實體
+	fmt.Printf("&s02 == &s03:%v\n", &s02 == &s03) // 雖然都是指向 a 這個 array 的起點位置, 但其實是兩個 slice header 實體
 	// reflect.DeepEqual() 深度比較內容是否相同但效能差(走 interface 與 reflect), 所以效能場景還是自己寫比對較快
-	fmt.Printf("a4    == s03:%v\n", reflect.DeepEqual(a4, s03)) // 型態不同直接 false
-	fmt.Printf("a4[:] == s03:%v\n", reflect.DeepEqual(a4[:], s03))
+	fmt.Printf("a    == s03:%v\n", reflect.DeepEqual(a, s03)) // 型態不同直接 false
+	fmt.Printf("a[:] == s03:%v\n", reflect.DeepEqual(a[:], s03))
 
 	fmt.Println()
 	s5 := make([]int, 2, 3)
@@ -101,4 +75,17 @@ func ShowSlice() {
 	sss = append(sss, -1, -2, -3) // 超過 capacity 了, 所以會重新分配一個新的 array, 就不再影響原本的 array 了
 	fmt.Printf("arr:%v type(%T) len(%d) cap(%d)\n", arr, arr, len(arr), cap(arr))
 	fmt.Printf("sss:%v type(%T) len(%d) cap(%d)\n", sss, sss, len(sss), cap(sss))
+
+	s0 := s12 // reference
+	fmt.Printf("s0  defore modifySlice : %v\n", s0)
+	fmt.Printf("s12 defore modifySlice : %v\n", s12)
+	modifySlice(s0)
+	fmt.Printf("s0  after  modifySlice : %v\n", s0)
+	fmt.Printf("s12 after  modifySlice : %v\n", s12)
+}
+
+func modifySlice(a []int) {
+	for i := range a {
+		a[i] += 1
+	}
 }

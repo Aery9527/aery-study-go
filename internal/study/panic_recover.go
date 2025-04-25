@@ -16,8 +16,8 @@ func ShowPanic() {
 	}()
 
 	fmt.Println("b1")
-	goPanic() // panic 會強制中斷執行(就像 java 的 throw 一樣), 直到被 recover 處理
-	fmt.Println("b2")
+	goPanic()         // panic 會強制中斷執行(就像 java 的 throw 一樣), 直到被 recover 處理
+	fmt.Println("b2") // 不會執行
 
 	defer func() {
 		// 這裡調用 recover() 並沒有效果, 原因是在觸發 panic 之前並沒有定義這個 defer
@@ -26,6 +26,6 @@ func ShowPanic() {
 
 func goPanic() {
 	fmt.Println("c1")
-	panic("oops") // 這有點像 java throw 的感覺
-	fmt.Println("c2")
+	panic("oops")     // 就像 java 的 throw exception
+	fmt.Println("c2") // 不會執行
 }
