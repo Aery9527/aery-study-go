@@ -11,12 +11,12 @@ import (
 
 // GO 有兩個保留 func, init() 跟 main()
 
-// init() 會在 main() 被呼叫之前執行
-// 可以有多個 init(), 甚至在同一個檔案中也可以定義多次
-// 每個檔案的 init() 執行順序依照 Go compiler 決定的 import 順序來定
-// 不能帶參數或回傳值
-// 主要用途就是為了模組初始化, 不需要特別去呼叫它, Go compiler 會搞定
 func init() {
+	// init() 不能帶參數或回傳值, 會在 main() 被呼叫之前執行
+	// 可以有多個 init(), 甚至在同一個檔案中也可以定義多次
+	// 每個檔案的 init() 執行順序依照 Go compiler 決定的 import 順序來定
+	// 主要用途就是為了模組初始化, 不需要特別去呼叫它, Go compiler 會搞定
+
 	fmt.Println("yo~~~")
 }
 
@@ -37,6 +37,7 @@ func main() {
 	wrapPrint("ShowFor", study.ShowFor)
 	wrapPrint("ShowFunc", study.ShowFunc)
 	wrapPrint("ShowPanic", study.ShowPanic)
+	wrapPrint("ShowInterface", study.ShowInterface)
 }
 
 type show func() // 定義一個 func 型別的變數, 這樣就可以當作參數傳入, 跟 java lambda 一樣可以把 method 當參數丟來丟去

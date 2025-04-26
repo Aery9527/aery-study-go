@@ -64,7 +64,7 @@ myapp/
 - GO 的 method 可以有多個回傳值, exception 也是透過多個回傳值回傳
 - GO method 傳遞變數時是 pass by value, 只有傳指標才會有 reference 的效果
 - 傳指標時會做 escape analysis (逃逸分析), 如果其內容離開 scope 會被放到 heap 上, 後續自動 GC
-- interface 在底層是個 pair 包含了 type 資訊 跟 data pointer, 傳值時會 copy 整個 pair, 但不會 copy data pointer 指向的內容
+- interface 是一種型別, 描述了一組方法的簽名, 任何實作了這些方法的型別都可以被視為這個 interface 的實作, 不用顯式宣告"implements"
 
 ---
 
