@@ -66,7 +66,7 @@ func makeAnimalSpeak(a animal) {
 	c, isCat := a.(cat)
 	fmt.Printf("isDog:%t(%T), isCar:%t(%T)\n", isDog, d, isCat, c)
 
-	switch t := a.(type) {
+	switch t := a.(type) { // 這個寫法只能在 switch 裡面使用
 	case dog:
 		fmt.Println("這是狗", t)
 	case cat:
