@@ -68,7 +68,22 @@ myapp/
 
 ---
 
+|             | go                                                         | java                                                       |
+|-------------|------------------------------------------------------------|------------------------------------------------------------|
+| 語法          | `go function()`                                            | `new Thread().start()`                                     |
+| 效能          | 協程, 開銷低, 由 go runtime 調度                                   | OS thread, 開銷大. 但 jdk 21 的 virtual thread 也是協程模式, 開銷也降低了很多 |
+| 同步          | channel                                                    | synchronized, Lock, Future, BlockingQueue                  | 
+| 協調/溝通       | channel, select                                            | wait/notify, Future, ExecutorService, BlockingQueue        | 
+| thread pool | 自行實作 或 [第三方 lib (ants)](https://github.com/panjf2000/ants) | ExecutorService, ThreadPoolExecutor                        | 
+|             | `runtime.Gosched()`                                        | `Thread.yield()`                                           | 
 
+- 為什麼還需要 goroutine pool? 協程不是交給 go runtime 協調就好了嗎?
+    - goroutine 很輕沒錯, 但每個 goroutine 啟動時還是會佔用 stack(預設 2KB 起跳, 動態增長), 加上 runtime 調度與 context switch 等, 量大一樣會OOM
+    - 協程適合 I/O-heavy 系統, 若是 CPU-bound 系統 thread 的 context switch 反而成為瓶頸
+- goroutine pool 功能:
+    - 限流: 可限制處理 request 的 goroutine 數量, 避免 QPS 突然飆高出現 OOM
+    - 資源分配: 可限制對 DB 或 API 操作的 goroutine 數量, 避免後端系統被打爆
+    - 併發控制: 避免 goroutine 氾濫
 
 ---
 
