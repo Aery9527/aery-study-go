@@ -32,6 +32,9 @@ func fibonacci(ch1, ch2 chan int) {
 		case v := <-ch2:
 			fmt.Printf("ch2: %d\n", v)
 			return
+		case <-time.After(time.Second): // 一種超時機制, 如果 1 秒內沒有任何 channel 有資料則這個 ch 會被返回, 因此這個 case 會被執行
+			fmt.Printf("timeout\n")
+			return
 		default: // 若 ch1 ch2 都 block 則會執行 default
 			fmt.Printf("all channels are blocked...\n")
 			time.Sleep(100 * time.Millisecond)
