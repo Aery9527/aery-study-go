@@ -22,6 +22,10 @@ func ShowGoroutine() {
 	// 但是這個值只能變大不能變小, 且只影響之後產生的 goroutine, 已經產生的不受影響
 	debug.SetMaxStack(256 * 1024) // 1.21+
 
+	//runtime.Goexit()       // 直接退出當前 goroutine
+	//runtime.Gosched()      // 讓出 CPU 時間給其他 goroutine, 自己重新排隊等待執行
+	//runtime.NumGoroutine() // 取得目前執行中的 goroutine 數量
+
 	go goString("A") // fork 一個 goroutine 執行
 	goString("B")    // 當前 goroutine 執行
 	time.Sleep(100 * time.Millisecond)

@@ -40,7 +40,9 @@ func main() {
 	//wrapPrint("ShowReflect", study.ShowReflect)
 	//wrapPrint("ShowGoroutine", goroutine.ShowGoroutine)
 	//wrapPrint("ShowChannel", goroutine.ShowChannel)
-	wrapPrint("ShowPoolEasy", goroutine.ShowPoolEasy)
+	//wrapPrint("ShowPoolEasy", goroutine.ShowPoolEasy)
+	wrapPrint("ShowSelect", goroutine.ShowSelect)
+	//wrapPrint("ShowContext", goroutine.ShowContext)
 }
 
 type show func() // 定義一個 func 型別的變數, 這樣就可以當作參數傳入, 跟 java lambda 一樣可以把 method 當參數丟來丟去
