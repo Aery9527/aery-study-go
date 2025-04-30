@@ -5,6 +5,9 @@ import (
 	"fmt"
 )
 
+// func 沒有多載, 要從 func name 區分
+// 這個設計我覺得比 java 多載性質好, 因為可以強制說明 func 功能區別
+
 type funny func(name string) int // 定義一個型別為匿名函數
 
 func main() {

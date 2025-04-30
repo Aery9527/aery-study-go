@@ -1,4 +1,5 @@
 // 一定要是 main package, 才能執行 main()
+// 而且 main 是個特殊的 package, 不能被其他 package 引用
 package main
 
 import (

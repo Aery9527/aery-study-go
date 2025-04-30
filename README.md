@@ -9,7 +9,7 @@
 
 - [目錄結構](./directory-structure.md)
 - [go module]() *還未整理
-- 對於沒用到的 var, import 會報錯, 強制你清理乾淨無用的 code
+- 對於沒用到的 var, import 會報錯, 強制清理乾淨無用的 code
 - `_` 單純一個底線的變數是 **匿名變數**, 其主要用途是當變數用不到時可避免代碼中的雜訊, java 21 也導入了這個東西
 - func 可以有多回傳值, `r1, r2 := func(arg1 string, arg2, int) (return1 int, return2 string)`
 - 沒有三元判斷子, 也沒有像 java `() -> {}` 匿名函數語法糖, 只能使用 `func() {}` 來表示匿名函數
@@ -23,28 +23,30 @@
 
 - [main()](./cmd/study-main/study-main.go)
 - [基本型別](./cmd/study-var/study-var.go)
-- [nil](./cmd/study-nil/study-nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
-- [var iota](./cmd/study-iota/study-iota.go) : 類似 java enum 的概念
-- [var array](./cmd/study-array/study-array.go) : 同 java array
-- [var slice](./cmd/study-slice/study-slice.go) : 類似 java ArrayList
-- [var map](./cmd/study-map/study-map.go) : 同 java HashMap(無序)
-- [var struct{}](./cmd/study-struct/study-struct.go) : 同 java 16 的 record
-- [interface](./cmd/study-interface/study-interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
-- [make()](./cmd/study-make/study-make.go) : 用於建立型別 map/slice/channel 的記憶體分配, 回傳相對應型別的初始化結構
-- [new()](./cmd/study-new/study-new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
+    - [nil](./cmd/study-nil/study-nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
+    - [var iota](./cmd/study-iota/study-iota.go) : 類似 java enum 的概念
+    - [var array](./cmd/study-array/study-array.go) : 同 java array
+    - [var slice](./cmd/study-slice/study-slice.go) : 類似 java ArrayList
+    - [var map](./cmd/study-map/study-map.go) : 同 java HashMap(無序)
+    - [var struct{}](./cmd/study-struct/study-struct.go) : 同 java 16 的 record
+    - [interface](./cmd/study-interface/study-interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
+    - [make()](./cmd/study-make/study-make.go) : 用於建立型別 map/slice/channel 的記憶體分配, 回傳相對應型別的初始化結構
+    - [new()](./cmd/study-new/study-new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
+    - [reflect](./cmd/study-reflect/study-reflect.go) : runtime 取得變數型別相關資訊, 框架的基礎大多依賴 reflect 機制
+    - [type](./cmd/study-type/study-type.go) : 是一種可以為型別添加別名的宣告
+    - [generics](./cmd/study-generics/study-generics.go) : 1.18 開始支援泛型, 有比 java 更彈性的泛型限制
 - [func(){}](./cmd/study-func/study-func.go) : 如何定義函數與使用, 包含 `defer` 說明
 - [流程控制](./cmd/study-process/study-process.go) : if, switch, for, goto
 - [錯誤處理](./cmd/study-error/study-error.go)
-- [reflect](./cmd/study-reflect/study-reflect.go)
 - [全域變數衝突]() *待整理
-- [泛型]() *待整理
-- [type]() *待整理
-- [package]() *待整理
+- [package]() *待整理 : public/private 的展示
 - [goroutine](./cmd/study-goroutine/study-goroutine.go) : go 的多工處理
-- [channel](./cmd/study-channel/study-channel.go) : goroutine 之間的溝通管道
-- [select](./cmd/study-select/study-select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
-- [context](./cmd/study-context/study-context.go) : 用來在多個 goroutine 之間傳遞 cancel 或 timeout 訊號用的, 其本質上是一個 chain
-- [goroutine-pool](./cmd/study-goroutine-pool/study-goroutine-pool.go) : 實現一個簡單的 goroutine pool 當作練習
+    - [channel](./cmd/study-channel/study-channel.go) : goroutine 之間的溝通管道
+    - [select](./cmd/study-select/study-select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
+    - [context](./cmd/study-context/study-context.go) : 用來在多個 goroutine 之間傳遞 cancel 或 timeout 訊號用的, 其本質上是一個 chain
+    - [goroutine-pool](./cmd/study-goroutine-pool/study-goroutine-pool.go) : 實現一個簡單的 goroutine pool 當作練習
+    - [lock]() *待整理
+    - [atomic]() *待整理
 
 ---
 
@@ -78,9 +80,6 @@
     - 資源分配: 可限制對 DB 或 API 操作的 goroutine 數量, 避免後端系統被打爆
     - 併發控制: 避免 goroutine 氾濫
 
-
-- 執行入口一定要 `package main`, 且該 package 只能有一個 `main` 函式, 否則會報錯
-- `package main` 是特殊的 package, 只能當作程式進入點, 無法被其他 package 引用
 - package 不能有巢狀命名(GO哲學), 所以當多維度交錯時則應該以 **領域** 為主, 例如 user/order 跟 service/repository 交錯時, 應以 user/order 為 package
   劃分
   ```
@@ -116,11 +115,7 @@
 
 ---
 
-### Go vs Java
-
----
-
-### 為什麼 native binary 在當年不受歡迎, 而是由 java 引領風騷 20 年? 如今百轉千迴又重新站上舞台?
+### 為什麼 native binary 在當年不受歡迎, 而是由 java 引領風騷 20 年? 百轉千迴又重新站上舞台?
 
 - 當年處於 OS 百家爭鳴時代, 所以 JVM 跨平台的方案就成了救星, 大家只要寫一次就可以在不同 OS 上執行了, 而如今基本上已經被 Windows, Unix, Linux 三分天下了.
 - 而且當年 Compiler 太重/部署太複雜, 需要針對不同平台打包/靜態連結非常麻煩等問題, 不像 java 有一個 *只要有 JVM 就能跑* 的便利性. 而且如今也有了
