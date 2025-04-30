@@ -9,7 +9,7 @@
 
 - [目錄結構](./directory-structure.md)
 - [go module]() *還未整理
-- 對於沒用到的 var, import 會報錯, 強制清理乾淨無用的 code
+- 對於沒用到的 var, import 會報錯, 強制清理無用的 code 保持乾淨
 - `_` 單純一個底線的變數是 **匿名變數**, 其主要用途是當變數用不到時可避免代碼中的雜訊, java 21 也導入了這個東西
 - func 可以有多回傳值, `r1, r2 := func(arg1 string, arg2, int) (return1 int, return2 string)`
 - 沒有三元判斷子, 也沒有像 java `() -> {}` 匿名函數語法糖, 只能使用 `func() {}` 來表示匿名函數
@@ -21,7 +21,7 @@
 
 ### 語法與特性
 
-- [main()](./cmd/study-main/study-main.go)
+- [main()](./cmd/study-main/study-main.go) : go 的進入點
 - [基本型別](./cmd/study-var/study-var.go)
     - [nil](./cmd/study-nil/study-nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
     - [var iota](./cmd/study-iota/study-iota.go) : 類似 java enum 的概念
@@ -33,7 +33,7 @@
     - [make()](./cmd/study-make/study-make.go) : 用於建立型別 map/slice/channel 的記憶體分配, 回傳相對應型別的初始化結構
     - [new()](./cmd/study-new/study-new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
     - [reflect](./cmd/study-reflect/study-reflect.go) : runtime 取得變數型別相關資訊, 框架的基礎大多依賴 reflect 機制
-    - [type](./cmd/study-type/study-type.go) : 是一種可以為型別添加別名的宣告
+    - [type](./cmd/study-type/study-type.go) : 是一種可以為任何型別添加別名的宣告
     - [generics](./cmd/study-generics/study-generics.go) : 1.18 開始支援泛型, 有比 java 更彈性的泛型限制
 - [func(){}](./cmd/study-func/study-func.go) : 如何定義函數與使用, 包含 `defer` 說明
 - [流程控制](./cmd/study-process/study-process.go) : if, switch, for, goto
@@ -60,6 +60,7 @@
 | runtime | 自帶 runtime        | 依賴 JVM       | - go 自帶 runtime, 但不需要額外安裝, 因為編譯時會直接打包進 binary 裡面 <br/> - java 需要安裝 JVM, 並且要確保版本相容性                                                                                                                                                                                                                                                                |
 | GC      | 在自帶的 runtime 裡    | 依賴 JVM       | 狀況同上                                                                                                                                                                                                                                                                                                                                              |
 | 速度      | AOT               | JIT          | - go 透過 AOT 提前準備好一切, 第一次編譯好直接使用<br/> - java 透過 JIT 才跑得快, 但相對的啟動就慢                                                                                                                                                                                                                                                                                 |
+| mem     |                   |              |                                                                                                                                                                                                                                                                                                                                                   |
 
 ### 多工體質 Go vs Java
 
@@ -70,9 +71,9 @@
 | 同步          | channel                                                    | synchronized, Lock, Future, BlockingQueue                  | 
 | 協調/溝通       | channel, select                                            | wait/notify, Future, ExecutorService, BlockingQueue        | 
 | thread pool | 自行實作 或 [第三方 lib (ants)](https://github.com/panjf2000/ants) | ExecutorService, ThreadPoolExecutor                        | 
-|             | `runtime.Gosched()`                                        | `Thread.yield()`                                           | 
+| 讓出 CPU      | `runtime.Gosched()`                                        | `Thread.yield()`                                           | 
 
-- 為什麼 go 還需要 goroutine pool? 協程不是交給 go runtime 協調就好了嗎?
+- 為什麼 go 還需要 thread pool? 協程不是交給 go runtime 協調就好了嗎?
     - goroutine 是很輕沒錯, 但每個 goroutine 啟動時還是會佔用 stack(預設 2KB 起跳, 動態增長), 加上 runtime 調度與 context switch 等, 量多大一樣會OOM
     - 協程適合 I/O-heavy 系統, 若是 CPU-bound 系統 thread 的 context switch 反而成為瓶頸
 - goroutine pool 功能:
@@ -98,20 +99,16 @@
   > **領域** **角色** 可以簡單用 **業務需求** 或 **系統需求** 來區分:
   > - user/order: 是業務邏輯劃分出來的 **領域** 概念
   > - service/repository: 是程式系統操作上劃分出來的 **角色** 概念.
-- go 的 package 概念有點像 java 的 "一個" class, 儘管散在不同 file 裡, 但它就是相同 scope 的概念
 - package: 一律小寫避免複數與底線, 與 folder 沒有正相關, 但習慣上一樣維持 folder 跟 package 相同, 方便管理與理解
 - file: 不建議camelCase, 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線
 - var/method: camelCase(`getUserByID()`, `getUserByIDAndName()`), 只要是大寫開頭就是 public, 小寫開頭就是 private 的概念
 - struct/interface: PascalCase(`OrderItem `, `UserService`), 命名結構建議為 **領域 + 行為**
-- 所有型態皆可以是 `interface` (類似 java `Object` 概念), 1.18 之後則可使用 any 替代 (any 是 interface 的別名)
 - **go.mod** 定義用了哪些 module/版本是多少(類似 maven pom.xml), **go.sum** 是記錄這些 module 的內容 checksum 確保下載來的沒被改動
 - Go 採用 MVS (Minimal Version Selection) 的版本解決策略, 例如 A 相依 C:v1.1, B 相依 C:v1.2, 那麼整體會使用 C:v1.2, 因為不支援多版本共存
 - 為避免上述的 A 使用到 C:v1.2 而炸掉, 所以 Go 社群推崇 semver (Semantic Versioning, 語意化版本), 也就是說小版號不應該有 breaking change,
   而是不向下相容時跳大版號, 因此不同版號而炸掉是開發者的問題!
-- GO 的 method 可以有多個回傳值, exception 也是透過多個回傳值回傳
 - GO method 傳遞變數時是 pass by value, 只有傳指標才會有 reference 的效果
 - 傳指標時會做 escape analysis (逃逸分析), 如果其內容離開 scope 會被放到 heap 上, 後續自動 GC
-- interface 是一種型別, 描述了一組方法的簽名, 任何實作了這些方法的型別都可以被視為這個 interface 的實作, 不用顯式宣告"implements"
 
 ---
 
