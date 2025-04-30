@@ -1,4 +1,54 @@
-### 與 java 的概觀比較
+# go 語言學習筆記
+
+- 主要參考 [這裡](https://willh.gitbook.io/build-web-application-with-golang-zhtw) 還有對 AI 提問整理出來的內容
+- 由於本身熟捻 java, 因此會與 java 對比語法/觀念內容
+
+---
+
+### 概觀
+
+- [目錄結構](./directory-structure.md)
+- [go module]() *還未整理
+- 對於沒用到的 var, import 會報錯, 強制你清理乾淨無用的 code
+- `_` 單純一個底線的變數是 **匿名變數**, 其主要用途是當變數用不到時可避免代碼中的雜訊, java 21 也導入了這個東西
+- func 可以有多回傳值, `r1, r2 := func(arg1 string, arg2, int) (return1 int, return2 string)`
+- 沒有三元判斷子, 也沒有像 java `() -> {}` 匿名函數語法糖, 只能使用 `func() {}` 來表示匿名函數
+- 僅有 public/private 兩個可見性 scope, 用命名開頭字母大小寫決定, 大寫開頭是 public, 小寫開頭是 private
+- package 僅有一層, 其概念類比 java 的一個 "class", 也就說散在各檔的東西只要是同個 package 就是同個 scope
+- package 與所在該層的 folder name 無相關性, 但習慣上會保持一致, 且同個 folder 下的檔案 package 要全部一樣
+
+---
+
+### 語法與特性
+
+- [main()](./cmd/study-main/study-main.go)
+- [基本型別](./cmd/study-var/study-var.go)
+- [nil](./cmd/study-nil/study-nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
+- [var iota](./cmd/study-iota/study-iota.go) : 類似 java enum 的概念
+- [var array](./cmd/study-array/study-array.go) : 同 java array
+- [var slice](./cmd/study-slice/study-slice.go) : 類似 java ArrayList
+- [var map](./cmd/study-map/study-map.go) : 同 java HashMap(無序)
+- [var struct{}](./cmd/study-struct/study-struct.go) : 同 java 16 的 record
+- [interface](./cmd/study-interface/study-interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
+- [make()](./cmd/study-make/study-make.go) : 用於建立型別 map/slice/channel 的記憶體分配, 回傳相對應型別的初始化結構
+- [new()](./cmd/study-new/study-new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
+- [func(){}](./cmd/study-func/study-func.go) : 如何定義函數與使用, 包含 `defer` 說明
+- [流程控制](./cmd/study-process/study-process.go) : if, switch, for, goto
+- [錯誤處理](./cmd/study-error/study-error.go)
+- [reflect](./cmd/study-reflect/study-reflect.go)
+- [全域變數衝突]() *待整理
+- [泛型]() *待整理
+- [type]() *待整理
+- [package]() *待整理
+- [goroutine](./cmd/study-goroutine/study-goroutine.go) : go 的多工處理
+- [channel](./cmd/study-channel/study-channel.go) : goroutine 之間的溝通管道
+- [select](./cmd/study-select/study-select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
+- [context](./cmd/study-context/study-context.go) : 用來在多個 goroutine 之間傳遞 cancel 或 timeout 訊號用的, 其本質上是一個 chain
+- [goroutine-pool](./cmd/study-goroutine-pool/study-goroutine-pool.go) : 實現一個簡單的 goroutine pool 當作練習
+
+---
+
+### 天生體質 Go vs Java
 
 |         | go                | java         |                                                                                                                                                                                                                                                                                                                                                   |
 |---------|-------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -9,26 +59,25 @@
 | GC      | 在自帶的 runtime 裡    | 依賴 JVM       | 狀況同上                                                                                                                                                                                                                                                                                                                                              |
 | 速度      | AOT               | JIT          | - go 透過 AOT 提前準備好一切, 第一次編譯好直接使用<br/> - java 透過 JIT 才跑得快, 但相對的啟動就慢                                                                                                                                                                                                                                                                                 |
 
-### 業界慣用專案目錄結構
+### 多工體質 Go vs Java
 
-```
-myapp/
-├── cmd/               # 主應用程式的進入點 (可有多個子命令)
-│   └── myapp/         # 一個 CLI 或 Web App 的主程式 (main.go)
-├── internal/          # 私有封裝，不能被其他專案 import
-│   └── foo/           # 內部的商業邏輯模組
-├── pkg/               # 可以被外部專案使用的公用模組
-│   └── utils/         # 例如工具函式、通用 helper
-├── api/               # API 定義：OpenAPI/Proto 文件、DTO 定義等
-│   ├── v1/            # API v1 定義與資料結構
-├── configs/           # 設定檔 (YAML、JSON、ENV...)
-├── scripts/           # 自動化腳本 (如 build.sh, migrate.sh)
-├── deployments/       # Docker、Kubernetes、CI/CD 部署相關
-├── web/               # 如果有前端資源，例如 HTML/JS/CSS
-├── test/              # 整合測試或測試資源
-├── go.mod
-└── README.md
-```
+|             | go                                                         | java                                                       |
+|-------------|------------------------------------------------------------|------------------------------------------------------------|
+| 語法          | `go function()`                                            | `new Thread().start()`                                     |
+| 效能          | 協程, 開銷低, 由 go runtime 調度                                   | OS thread, 開銷大. 但 jdk 21 的 virtual thread 也是協程模式, 開銷也降低了很多 |
+| 同步          | channel                                                    | synchronized, Lock, Future, BlockingQueue                  | 
+| 協調/溝通       | channel, select                                            | wait/notify, Future, ExecutorService, BlockingQueue        | 
+| thread pool | 自行實作 或 [第三方 lib (ants)](https://github.com/panjf2000/ants) | ExecutorService, ThreadPoolExecutor                        | 
+|             | `runtime.Gosched()`                                        | `Thread.yield()`                                           | 
+
+- 為什麼 go 還需要 goroutine pool? 協程不是交給 go runtime 協調就好了嗎?
+    - goroutine 是很輕沒錯, 但每個 goroutine 啟動時還是會佔用 stack(預設 2KB 起跳, 動態增長), 加上 runtime 調度與 context switch 等, 量多大一樣會OOM
+    - 協程適合 I/O-heavy 系統, 若是 CPU-bound 系統 thread 的 context switch 反而成為瓶頸
+- goroutine pool 功能:
+    - 限流: 可限制處理 request 的 goroutine 數量, 避免 QPS 突然飆高出現 OOM
+    - 資源分配: 可限制對 DB 或 API 操作的 goroutine 數量, 避免後端系統被打爆
+    - 併發控制: 避免 goroutine 氾濫
+
 
 - 執行入口一定要 `package main`, 且該 package 只能有一個 `main` 函式, 否則會報錯
 - `package main` 是特殊的 package, 只能當作程式進入點, 無法被其他 package 引用
@@ -55,7 +104,6 @@ myapp/
 - file: 不建議camelCase, 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線
 - var/method: camelCase(`getUserByID()`, `getUserByIDAndName()`), 只要是大寫開頭就是 public, 小寫開頭就是 private 的概念
 - struct/interface: PascalCase(`OrderItem `, `UserService`), 命名結構建議為 **領域 + 行為**
-- 沒有三元判斷子, 沒有 `() -> {}` 的 lambda 語法糖, 沒有方法多載
 - 所有型態皆可以是 `interface` (類似 java `Object` 概念), 1.18 之後則可使用 any 替代 (any 是 interface 的別名)
 - **go.mod** 定義用了哪些 module/版本是多少(類似 maven pom.xml), **go.sum** 是記錄這些 module 的內容 checksum 確保下載來的沒被改動
 - Go 採用 MVS (Minimal Version Selection) 的版本解決策略, 例如 A 相依 C:v1.1, B 相依 C:v1.2, 那麼整體會使用 C:v1.2, 因為不支援多版本共存
@@ -68,22 +116,7 @@ myapp/
 
 ---
 
-|             | go                                                         | java                                                       |
-|-------------|------------------------------------------------------------|------------------------------------------------------------|
-| 語法          | `go function()`                                            | `new Thread().start()`                                     |
-| 效能          | 協程, 開銷低, 由 go runtime 調度                                   | OS thread, 開銷大. 但 jdk 21 的 virtual thread 也是協程模式, 開銷也降低了很多 |
-| 同步          | channel                                                    | synchronized, Lock, Future, BlockingQueue                  | 
-| 協調/溝通       | channel, select                                            | wait/notify, Future, ExecutorService, BlockingQueue        | 
-| thread pool | 自行實作 或 [第三方 lib (ants)](https://github.com/panjf2000/ants) | ExecutorService, ThreadPoolExecutor                        | 
-|             | `runtime.Gosched()`                                        | `Thread.yield()`                                           | 
-
-- 為什麼還需要 goroutine pool? 協程不是交給 go runtime 協調就好了嗎?
-    - goroutine 很輕沒錯, 但每個 goroutine 啟動時還是會佔用 stack(預設 2KB 起跳, 動態增長), 加上 runtime 調度與 context switch 等, 量大一樣會OOM
-    - 協程適合 I/O-heavy 系統, 若是 CPU-bound 系統 thread 的 context switch 反而成為瓶頸
-- goroutine pool 功能:
-    - 限流: 可限制處理 request 的 goroutine 數量, 避免 QPS 突然飆高出現 OOM
-    - 資源分配: 可限制對 DB 或 API 操作的 goroutine 數量, 避免後端系統被打爆
-    - 併發控制: 避免 goroutine 氾濫
+### Go vs Java
 
 ---
 
