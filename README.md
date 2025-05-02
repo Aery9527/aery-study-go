@@ -20,31 +20,31 @@
 
 ### 語法與特性
 
-- [main()](./cmd/study-main/study-main.go) : go 的進入點
-- [basic var](./cmd/study-var/study-var.go)
-    - [point](./cmd/study-) : 指標 *待整理
-    - [nil](./cmd/study-nil/study-nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
-    - [var iota](./cmd/study-iota/study-iota.go) : 類似 java enum 的概念
-    - [var array](./cmd/study-array/study-array.go) : 同 java array, 長度不可變
-    - [var slice](./cmd/study-slice/study-slice.go) : 類似 java ArrayList, 長度可變
-    - [var map](./cmd/study-map/study-map.go) : 同 java HashMap(無序)
-    - [var struct{}](./cmd/study-struct/study-struct.go) : 同 java 16 的 record
-    - [interface](./cmd/study-interface/study-interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
-    - [make()](./cmd/study-make/study-make.go) : 用於建立 slice/map/channel 這三種型別的記憶體分配, 回傳的實際上是一個 struct
-    - [new()](./cmd/study-new/study-new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
-    - [reflect](./cmd/study-reflect/study-reflect.go) : runtime 取得變數型別相關資訊, 框架的基礎大多依賴 reflect 機制
-    - [type](./cmd/study-type/study-type.go) : 是一種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
-    - [generics](./cmd/study-generics/study-generics.go) : 在 `[]` 內定義泛型, EX: `func funcName[K string, V any](m map[K]V)`
-- [func(){}](./cmd/study-func/study-func.go) : 如何定義函數與使用
-- [error handling](./cmd/study-error/study-error.go)
-- [process control](./cmd/study-process/study-process.go) : if, switch, for, goto
+- [main()](cmd/study_main/study_main.go) : go 的進入點
+- [basic var](cmd/study_var/study_var.go)
+    - [point]() : 指標 *待整理
+    - [nil](cmd/study_nil/study_nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
+    - [var iota](cmd/study_iota/study_iota.go) : 類似 java enum 的概念
+    - [var array](cmd/study_array/study_array.go) : 同 java array, 長度不可變
+    - [var slice](cmd/study_slice/study_slice.go) : 類似 java ArrayList, 長度可變
+    - [var map](cmd/study_map/study_map.go) : 同 java HashMap(無序)
+    - [var struct{}](cmd/study_struct/study_struct.go) : 同 java 16 的 record
+    - [interface](cmd/study_interface/study_interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
+    - [make()](cmd/study_make/study_make.go) : 用於建立 slice/map/channel 這三種型別的記憶體分配, 回傳的實際上是一個 struct
+    - [new()](cmd/study_new/study_new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
+    - [reflect](cmd/study_reflect/study_reflect.go) : runtime 取得變數型別相關資訊, 框架的基礎大多依賴 reflect 機制
+    - [type](cmd/study_type/study_type.go) : 是一種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
+    - [generics](cmd/study_generics/study_generics.go) : 在 `[]` 內定義泛型, EX: `func funcName[K string, V any](m map[K]V)`
+- [func(){}](cmd/study_func/study_func.go) : 如何定義函數與使用
+- [error handling](cmd/study_error/study_error.go)
+- [process control](cmd/study_process/study_process.go) : if, switch, for, goto
 - [global variable cover]() *待整理
 - [package]() *待整理 : 概念就像 java 一個 "class" 的 scope, 也就是說散在各檔案的東西只要是同個 package 就是同個 scope
-- [goroutine](./cmd/study-goroutine/study-goroutine.go) : go 的多工處理 (multithreading)
-    - [channel](./cmd/study-channel/study-channel.go) : goroutine 之間的溝通管道
-    - [select](./cmd/study-select/study-select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
-    - [context](./cmd/study-context/study-context.go) : 用來在多個 goroutine 之間傳遞 cancel 或 timeout 訊號用的, 其本質上是一個 chain
-    - [goroutine-pool](./cmd/study-goroutine-pool/study-goroutine-pool.go) : 實現一個簡單的 goroutine pool 當作練習
+- [goroutine](cmd/study_goroutine/study_goroutine.go) : go 的多工處理 (multithreading)
+    - [channel](cmd/study_channel/study_channel.go) : goroutine 之間的溝通管道
+    - [select](cmd/study_select/study_select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
+    - [context](cmd/study_context/study_context.go) : 用來在多個 goroutine 之間傳遞 cancel 或 timeout 訊號用的, 其本質上是一個 chain
+    - [goroutine-pool](cmd/study_goroutine_pool/study_goroutine_pool.go) : 實現一個簡單的 goroutine pool 當作練習
     - [lock]() *待整理
     - [atomic]() *待整理
 

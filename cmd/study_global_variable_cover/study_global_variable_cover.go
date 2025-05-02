@@ -1,0 +1,1 @@
+package study_global_variable_cover
