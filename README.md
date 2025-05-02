@@ -8,15 +8,15 @@
 ### 概觀
 
 - [目錄結構](./directory-structure.md) : 完全不同於 java 的 **src/main/java**, **src/test/java** 結構, test 是跟 source 放在一起的
-- [go module](./go-module.md) : 就類似 java 的 maven 或 gradle 的相依管理, 主要是以 repository 為單位 <待整理>
-- go 對於沒用到的 var, import 會報錯, 強制開發者清理無用的 code 保持乾淨
+- [go module](./go-module.md) : 就類似 java 的 maven 或 gradle 的相依管理
+- go 對於沒用到的 var, import package 會報錯, 強制開發者清理無用的 code 保持乾淨
 - 僅有 public/private 兩個可見性 scope(以 package 為單位), 命名時用開頭字母大小寫決定: 大寫開頭是 public / 小寫開頭是 private
 - go在 `func` 間傳遞變數是 **pass by value**, 只有傳指標才會有 reference 的效果
-- 命名
+- 命名原則與習慣
     - 要能明確表達 **職責** 與 **行為**
     - 善用語意明確縮寫, HTTP/ID/URL 應大寫: `UserID`/`HTTPClient`
-    - var/method 習慣使用 camelCase, ex: `userName`/`getUserByID()`
-    - struct 習慣使用 PascalCase (UpperCamelCase), 以 **領域(domain):`User`/`Order`** 為主, 避免使用 service/manager/data 等 suffix
+    - var/method 習慣用 camelCase, ex: `userName`/`getUserByID()`
+    - struct 習慣用 PascalCase (UpperCamelCase), 以 **領域(domain):`User`/`Order`** 為主, 避免使用 service/manager/data 等 suffix
     - interface 習慣用 **領域(domain) + 行為命名 + er 結尾:`FileReader`/`OrderCreator`**, 內包含精簡且功能明確的 func 為佳, 勿包含太多概念的 func
     - folder/package/file 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線. [更多概念看這裡:study_package.md](cmd/study_package/study_package.md)
 - 禁止循環相依
@@ -41,7 +41,7 @@
     - [make()](cmd/study_make/study_make.go) : 用於建立 slice/map/channel 這三種型別的記憶體分配, 回傳的實際上是一個 struct
     - [new()](cmd/study_new/study_new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
     - [reflect](cmd/study_reflect/study_reflect.go) : runtime 取得變數型別相關資訊, 框架的基礎大多依賴 reflect 機制
-    - [type](cmd/study_type/study_type.go) : 是一種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
+    - [type](cmd/study_type/study_type.go) : 是種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
     - [generics](cmd/study_generics/study_generics.go) : 在 `[]` 內定義泛型, EX: `func funcName[K string, V any](m map[K]V)`
 - [func(){}](cmd/study_func/study_func.go) : 如何定義函數與使用
 - [error handling](cmd/study_error/study_error.go) : 錯誤處理
@@ -61,15 +61,15 @@
 
 ### 天生體質 Go vs Java
 
-|         | go                | java         |                                                                                                                                                                                                                                                                                                                                                   |
-|---------|-------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 編譯器     | go compiler       | javac + JVM  | - go 使用自家編寫的編譯器(gc, Go Compiler), 透過 `go build` 將 source code 編譯成 native binary 直接跑在 OS 上 <br/> - go 編譯速度極快, 大型專案也能在幾秒內編譯完成, 還有 Go modules + increment build system 加速重複編譯 <br/> - go 是 AOT(Ahead Of Time) compiler, 在執行前會一次編譯所有 source code 為 "一個" native binary 檔案 <br/> - go 指定編譯平台 `GOOS=linux GOARCH=amd64 go build -o my_app_linux main.go` |
-| 執行方式    | native binary     | JVM bytecode | - go 執行速度快, 因為直接是 native binary 直接跑在 OS 上, java 則還隔了一層 JVM                                                                                                                                                                                                                                                                                        |
-| 跨平台     | cross-compilation | JVM 負責抽象     | - go 要跨平台執行就要分別編譯, java 則是編譯一次到處透過 JVM 執行                                                                                                                                                                                                                                                                                                         |
-| runtime | 自帶 runtime        | 依賴 JVM       | - go 自帶 runtime, 但不需要額外安裝, 因為編譯時會直接打包進 binary 裡面 <br/> - java 需要安裝 JVM, 並且要確保版本相容性                                                                                                                                                                                                                                                                |
-| GC      | 在自帶的 runtime 裡    | 依賴 JVM       | 狀況同上                                                                                                                                                                                                                                                                                                                                              |
-| 速度      | AOT               | JIT          | - go 透過 AOT 提前準備好一切, 第一次編譯好直接使用<br/> - java 透過 JIT 才跑得快, 但相對的啟動就慢                                                                                                                                                                                                                                                                                 |
-| mem     |                   |              |                                                                                                                                                                                                                                                                                                                                                   |
+|         | go                  | java                    |                                                                                                                                                                                                                                                                                                                                                   |
+|---------|---------------------|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 編譯器     | go compiler         | javac + JVM             | - go 使用自家編寫的編譯器(gc, Go Compiler), 透過 `go build` 將 source code 編譯成 native binary 直接跑在 OS 上 <br/> - go 編譯速度極快, 大型專案也能在幾秒內編譯完成, 還有 Go modules + increment build system 加速重複編譯 <br/> - go 是 AOT(Ahead Of Time) compiler, 在執行前會一次編譯所有 source code 為 "一個" native binary 檔案 <br/> - go 指定編譯平台 `GOOS=linux GOARCH=amd64 go build -o my_app_linux main.go` |
+| 執行方式    | native binary       | JVM bytecode            | - go 執行速度快, 因為直接是 native binary 直接跑在 OS 上, java 則還隔了一層 JVM                                                                                                                                                                                                                                                                                        |
+| 跨平台     | cross-compilation   | JVM 負責抽象                | - go 要跨平台執行就要分別編譯, java 則是編譯一次到處透過 JVM 執行                                                                                                                                                                                                                                                                                                         |
+| runtime | 自帶 runtime          | 依賴 JVM                  | - go 自帶 runtime, 但不需要額外安裝, 因為編譯時會直接打包進 binary 裡面 <br/> - java 需要安裝 JVM, 並且要確保版本相容性                                                                                                                                                                                                                                                                |
+| GC      | 在自帶的 runtime 裡      | 依賴 JVM                  | 狀況同上                                                                                                                                                                                                                                                                                                                                              |
+| 速度      | AOT                 | JIT                     | - go 透過 AOT 提前準備好一切, 第一次編譯好直接使用<br/> - java 透過 JIT 才跑得快, 但相對的啟動就慢                                                                                                                                                                                                                                                                                 |
+| 記憶體     | 自動調節, OS 能給多少就能吃到多少 | 透過 `-Xmx` -`Xms` 限制上下用量 | 不過 go 可以透過內部程式設定 `debug.SetMemoryLimit(512 << 20) // 限制為 512MB`                                                                                                                                                                                                                                                                                   |
 
 ### 多工體質 Go vs Java
 
@@ -80,7 +80,7 @@
 | 同步          | channel                                                    | synchronized, Lock, Future, BlockingQueue                  | 
 | 協調/溝通       | channel, select                                            | wait/notify, Future, ExecutorService, BlockingQueue        | 
 | thread pool | 自行實作 或 [第三方 lib (ants)](https://github.com/panjf2000/ants) | ExecutorService, ThreadPoolExecutor                        | 
-| 讓出 CPU      | `runtime.Gosched()`                                        | `Thread.yield()`                                           | 
+| 讓出 CPU 時間片  | `runtime.Gosched()`                                        | `Thread.yield()`                                           | 
 
 - 為什麼 go 還需要 thread pool? 協程不是交給 go runtime 協調就好了嗎?
     - goroutine 是很輕沒錯, 但每個 goroutine 啟動時還是會佔用 stack(預設 2KB 起跳, 動態增長), 加上 runtime 調度與 context switch 等, 量多大一樣會OOM
