@@ -50,3 +50,8 @@ func main() {
 		})
 	})
 }
+
+// Function 當 func 是 public 時, 在其前面的註解如同 javadoc 一樣, 且必須以 func name 為開頭 (不成文的規定)
+func Function() {
+
+}

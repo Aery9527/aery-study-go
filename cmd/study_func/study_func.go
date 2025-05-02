@@ -9,8 +9,10 @@ import (
 // 這個設計我覺得比 java 多載性質好,
 // 因為可以強制開發者使用 func name 將功能說清楚
 
+// 沒有像 java `() -> {}` 匿名函數語法糖, 只能使用 `func() {}` 來表示匿名函數
+
 // 定義一個 func 型別
-type funny func(name string) int
+type funny func(name string) int // name string 是參數, int 是回傳值
 
 // 不定引數使用方式, 基本上跟 java 一樣,
 // 不定引數要放在最後一個, 前面可以放其他引數,

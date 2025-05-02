@@ -47,6 +47,11 @@ var everything any = "everything"
 // 常數, 不可變更
 const format = "%-20s: "
 
+// 任何一個地方使用底線(_)當作變數名稱, 稱為"匿名變數"
+// 匿名變數在後續無法被使用, 其主要用途是當變數用不到但又必須接起來時, 可避免代碼中的雜訊
+// 在 java 21 也導入了這個用法
+var _ int
+
 func main() {
 	showVar(1, "2", 3.14, true, byte(1))
 }
