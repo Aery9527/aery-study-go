@@ -5,7 +5,7 @@
 - 命名習慣: 小寫字母/沒有底線/沒有駝峰, 也就是說應該要全是英文小寫.
     - 這樣的習慣是為了"命名明確", 就可以避免過多含意的 package 名稱
     - 也避免使用像這種 util/controller/manager 抽象過高卻有可能包含太多領域的爛大街名稱
-    - 但 [/cmd](../) 裡的 `main()` 其 folder name 則比較沒有此限定, 原因是它只是個入口, 並非主要程式邏輯內容
+    - 但 [/cmd](cmd) 裡的 `main()` 其 folder name 則比較沒有此限定, 原因是它只是個入口, 並非主要程式邏輯內容
     - struct 盡量不要包含 package 語意
     ```
     package user // package user 裡不要定義 type User 這種重複命名
