@@ -1,5 +1,5 @@
 // 模組名稱, 通常是 repo URL, 之後 import 就會基於這個路徑
-module github.com/Aery9527/aery-study-go
+module aery-study-go
 
 // 指定這個 module 使用哪個 Go 版本, 不是專案執行版本, 而是 module 功能版本, 影響一些語法或行為
 go 1.24

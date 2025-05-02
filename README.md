@@ -9,8 +9,9 @@
 
 - [目錄結構](./directory-structure.md) : 完全不同於 java 的 **src/main/java**, **src/test/java** 結構, test 是跟 source 放在一起的
 - [go module](./go-module.md) : 就類似 java 的 maven 或 gradle 的相依管理
+- [go test](./go-test.md) : 測試的寫法, 也類似 java 的 JUnit, 但 go 是內建的 <待整理>
 - go 對於沒用到的 var, import package 會報錯, 強制開發者清理無用的 code 保持乾淨
-- 僅有 public/private 兩個可見性 scope(以 package 為單位), 命名時用開頭字母大小寫決定: 大寫開頭是 public / 小寫開頭是 private
+- 僅有 public/private 兩個可見性 scope (以 package 為單位), 命名時用開頭字母大小寫決定: 大寫開頭是 public / 小寫開頭是 private
 - go在 `func` 間傳遞變數是 **pass by value**, 只有傳指標才會有 reference 的效果
 - 命名原則與習慣
     - 要能明確表達 **職責** 與 **行為**
@@ -18,7 +19,7 @@
     - var/method 習慣用 camelCase, ex: `userName`/`getUserByID()`
     - struct 習慣用 PascalCase (UpperCamelCase), 以 **領域(domain):`User`/`Order`** 為主, 避免使用 service/manager/data 等 suffix
     - interface 習慣用 **領域(domain) + 行為命名 + er 結尾:`FileReader`/`OrderCreator`**, 內包含精簡且功能明確的 func 為佳, 勿包含太多概念的 func
-    - folder/package/file 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線. [更多概念看這裡:study_package.md](cmd/study_package/study_package.md)
+    - folder/package/file 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線. [更多概念看這裡:study_package.md](package.md)
 - 禁止循環相依
     - go 是靜態編譯語言, 會事先掃過所有套件的 import, 決定依賴圖(dependency graph), 若有循環無法決定誰先編譯誰
     - 而且實務上循環相依意味著設計不良, 代表功能過度耦合, 需要將依賴的部分拆至另外 package
@@ -28,34 +29,65 @@
 
 ### 語法與特性
 
-- [main()](cmd/study_main/study_main.go) : go 的進入點
-- [basic var](cmd/study_var/study_var.go) : 基本型別
+- [main()](cmd/study-main/study-main.go) : go 的進入點
+- [basic var](cmd/study-var/study-var.go) : 基本型別
     - [point](cmd/study-point/study-point.go) : 指標 <待整理>
-    - [nil](cmd/study_nil/study_nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
-    - [var iota](cmd/study_iota/study_iota.go) : 類似 java enum 的概念
-    - [var array](cmd/study_array/study_array.go) : 同 java array, 長度不可變
-    - [var slice](cmd/study_slice/study_slice.go) : 類似 java ArrayList, 長度可變
-    - [var map](cmd/study_map/study_map.go) : 同 java HashMap(無序)
-    - [var struct{}](cmd/study_struct/study_struct.go) : 同 java 16 的 record
-    - [interface](cmd/study_interface/study_interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
-    - [make()](cmd/study_make/study_make.go) : 用於建立 slice/map/channel 這三種型別的記憶體分配, 回傳的實際上是一個 struct
-    - [new()](cmd/study_new/study_new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
-    - [reflect](cmd/study_reflect/study_reflect.go) : runtime 取得變數型別相關資訊, 框架的基礎大多依賴 reflect 機制
-    - [type](cmd/study_type/study_type.go) : 是種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
-    - [generics](cmd/study_generics/study_generics.go) : 在 `[]` 內定義泛型, EX: `func funcName[K string, V any](m map[K]V)`
-- [func(){}](cmd/study_func/study_func.go) : 如何定義函數與使用
-- [error handling](cmd/study_error/study_error.go) : 錯誤處理
-- [process control](cmd/study_process/study_process.go) : 流程控制 (if, switch, for, goto)
-- [global variable cover](cmd/study_global_variable_cover/study_global_variable_cover.go) : 全域變數覆蓋問題
-- [package](cmd/study_package/study_package.go) 概念就像 java 一個 "class" 的 scope, 也就是說散在各檔案的東西只要是同個 package 就是同個
-  scope. [更多概念說明](cmd/study_package/study_package.md)
-- [goroutine](cmd/study_goroutine/study_goroutine.go) : go 的多工處理 (multithreading)
-    - [channel](cmd/study_channel/study_channel.go) : goroutine 之間的溝通管道
-    - [select](cmd/study_select/study_select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
-    - [context](cmd/study_context/study_context.go) : 用來在多個 goroutine 之間傳遞 cancel 或 timeout 訊號用的, 其本質上是一個 chain
-    - [goroutine-pool](cmd/study_goroutine_pool/study_goroutine_pool.go) : 實現一個簡單的 goroutine pool 當作練習
+    - [nil](cmd/study-nil/study-nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
+    - [var iota](cmd/study-iota/study-iota.go) : 類似 java enum 的概念
+    - [var array](cmd/study-array/study-array.go) : 同 java array, 長度不可變
+    - [var slice](cmd/study-slice/study-slice.go) : 類似 java ArrayList, 長度可變
+    - [var map](cmd/study-map/study-map.go) : 同 java HashMap(無序)
+    - [var struct{}](cmd/study-struct/study-struct.go) : 類似 java 16 的 record
+    - [interface](cmd/study-interface/study-interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
+    - [make()](cmd/study-make/study-make.go) : 用於建立 slice/map/channel 這三種型別的記憶體分配, 回傳的實際上是一個 struct
+    - [new()](cmd/study-new/study-new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
+    - [reflect](cmd/study-reflect/study-reflect.go) : runtime 取得變數型別相關資訊, 框架的基礎大多依賴 reflect 機制
+    - [type](cmd/study-type/study-type.go) : 是種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
+    - [generics](cmd/study-generics/study-generics.go) : 在 `[]` 內定義泛型, EX: `func funcName[K string, V any](m map[K]V)`
+- [func(){}](cmd/study-func/study-func.go) : 如何定義函數與使用
+- [error handling](cmd/study-error/study-error.go) : 錯誤處理
+- [process control](cmd/study-process/study-process.go) : 流程控制 (if, switch, for, goto)
+- [global variable cover](cmd/study-global-variable-cover/study-global-variable-cover.go) : 全域變數覆蓋問題
+- [package](cmd/study-package/study-package.go) 概念就像 java 一個 "class" 的 scope, 也就是說散在各檔案的東西只要是同個 package 就是同個
+  scope. [更多概念說明](package.md)
+- [goroutine](cmd/study-goroutine/study-goroutine.go) : go 的多工處理 (multithreading)
+    - [channel](cmd/study-channel/study-channel.go) : goroutine 之間的溝通管道
+    - [select](cmd/study-select/study-select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
+    - [context](cmd/study-context/study-context.go) : 用來在多個 goroutine 之間傳遞 cancel 或 timeout 訊號用的, 其本質上是一個 chain
+    - [goroutine-pool](cmd/study-goroutine-pool/study-goroutine-pool.go) : 實現一個簡單的 goroutine pool 當作練習
     - [lock]() <待整理>
     - [atomic]() <待整理>
+
+| 關鍵字                                                   | 功能                                            | java 與之對應的                                 |
+|-------------------------------------------------------|-----------------------------------------------|--------------------------------------------|
+| [`var`](cmd/study-var/study-var.go) (基本型別關鍵字也在此)      | 宣告變數(可變)                                      | 直接使用型別宣告變數, 沒有一個特定的變數關鍵字                   |
+| [`const`](cmd/study-var/study-var.go)                 | 宣告變數(不可變)                                     | 用 `final` 關鍵字定義                            |
+| [`if` `else`](cmd/study-process/study-process.go)     | 條件判斷                                          | 一樣                                         |
+| [`for`](cmd/study-process/study-process.go)           | 開啟迴圈, go 裡唯一迴圈關鍵字                             | 一樣, 但 go 的 for 語法多一點, 因為涵蓋了 java 的 `while` |
+| [`range`](cmd/study-process/study-process.go)         | 搭配 `for` 使用可遍歷有個數的型別(array, slice, map, chan) | 沒有, 但類似的功能要視物件有不同的操作方式                     |
+| [`break`](cmd/study-process/study-process.go)         | 中斷迴圈                                          | 一樣                                         |
+| [`continue`](cmd/study-process/study-process.go)      | 跳過迴圈, 回到 `for` 判斷式                            | 一樣                                         |
+| [`goto`](cmd/study-process/study-process.go)          | 流程跳躍                                          | 早期有, 但後來好像取消功能了                            |
+| [`switch`](cmd/study-process/study-process.go)        | 條件判斷                                          | 一樣, 但語法有一點不同                               |
+| [`fallthrough`](cmd/study-process/study-process.go)   | 搭配 `switch` 使用, 可接續執行下面的 `case`               | 預設就是這樣的行為, 與之相反需要使用 `break` 跳出 `switch`    |
+| [`default`](cmd/study-process/study-process.go)       | 預設條件, `select` 跟 `swtich` 會搭配著用               | 一樣                                         |
+| [`case`](cmd/study-context/study-context.go)          | 選擇條件, `select` 跟 `swtich` 會搭配著用               | 搭配 `swtich` 使用                             |
+| [`select`](cmd/study-context/study-context.go)        | 在多個 `chan` 中選擇非 block 的 `chan` 執行             | 沒有類似功能                                     |
+| [`func`](cmd/study-func/study-func.go)                | 宣告函數                                          | 用語法格式定義 method, 沒有特定關鍵字                    |
+| [`return`](cmd/study-func/study-func.go)              | 退出 `func`                                     | 一樣                                         |
+| [`defer`](cmd/study-error/study-error.go)             | 退出 `func` 前會執行區塊程式碼                           | 類似 `finally` 區塊                            |
+| [`go`](cmd/study-goroutine/study-goroutine.go)        | 讓 `func` 非同步執行                                | `new Thread().start()`                     |
+| [`interface`](cmd/study-interface/study-interface.go) | 定義介面                                          | 一樣, 但概念不太一樣                                |
+| [`map`](cmd/study-map/study-map.go)                   | 宣告 `map` 型別                                   | `Map<String, String> map = ...`            |
+| [`struct`](cmd/study-struct/study-struct.go)          | 定義 `struct` 型別                                | 類似 java 16 的 record                        |
+| [`chan`](cmd/study-channel/study-channel.go)          | 宣告 `chan`(channel) 型別                         | java 有一堆物件達成的功能, go 由一個 `chan` 完成          |
+| [`package`](cmd/study-package/study-package.go)       | 定義檔案的 package                                 | 有同樣關鍵字, 但意義完全不同                            |
+| [`import`](cmd/study-package/study-package.go)        | 引用其他模組 `package`                              | 一樣                                         |
+| [`type`](cmd/study-type/study-type.go)                | 為任何型別定義別名                                     | 要達到類似的功能必須額外定義 class, 非常麻煩                 |
+
+---
+
+### 社群常見框架
 
 ---
 

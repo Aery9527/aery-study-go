@@ -62,6 +62,12 @@ func showFor() {
 	}
 
 	for a := 10; a < 20; a++ {
+		if a == 15 {
+			break // 跳出迴圈
+		}
+		if a == 18 {
+			continue // 跳過這次迴圈, 回到 for 的判斷, 所以下面不會執行
+		}
 		show(a)
 	}
 	fmt.Println()

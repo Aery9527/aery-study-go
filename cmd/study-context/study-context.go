@@ -11,7 +11,7 @@ import (
 
 // context 本質是一個 chain, 可以串起多個 context 來組裝多個功能, 主要用來:
 // 攜帶截止時間（Deadline）或超時（Timeout）訊息
-// 在多個 goroutine 間傳遞取消(Cancel)訊號
+// 在多個 goroutine 間傳遞取消(cancel)訊號
 // 傳遞一些系統用的資訊, 例如自定義的 log id, goroutines id, trace id 等等
 
 func main() {

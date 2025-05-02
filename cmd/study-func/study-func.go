@@ -9,7 +9,7 @@ import (
 // 這個設計我覺得比 java 多載性質好,
 // 因為可以強制開發者使用 func name 將功能說清楚
 
-// 沒有像 java `() -> {}` 匿名函數語法糖, 只能使用 `func() {}` 來表示匿名函數
+// 沒有像 java 這樣 `() -> {}` 匿名函數語法糖, 只能使用 `func() {}` 來表示匿名函數
 
 // 定義一個 func 型別
 type funny func(name string) int // name string 是參數, int 是回傳值
@@ -46,7 +46,7 @@ func main() {
 	})
 
 	x := 1
-	pointerTest(&x) // 傳址, 參考型別
+	add1(&x) // 傳址, 參考型別
 	utils.WrapPrint("func init()", func() {
 		fmt.Printf("x: %d\n", x)
 	})
@@ -89,7 +89,7 @@ func deferTest() (x int, y string) {
 	return
 }
 
-func pointerTest(a *int) {
+func add1(a *int) {
 	*a += 1
 }
 
