@@ -20,7 +20,7 @@ func main() {
 	p.X = 10
 	p.Y = 20
 	utils.WrapPrint("new(struct)", func() {
-		fmt.Printf("point p: %+v\n", *p)
+		fmt.Printf("point p: %+v\n", p) // print 會帶 & 表示指標
 	})
 }
 

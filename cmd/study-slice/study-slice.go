@@ -8,7 +8,6 @@ import (
 
 // slice 宣告方式, 大小可以變動, 類似 java 的 List<>
 // 它不是真正意義上的動態陣列, 而是一個 reference type, 指向一個底層 array
-// slice 是個結構, 包含三個欄位: 指向底層 array 的指標, slice 的長度, slice 的容量
 
 var s0 []int // 宣告方式跟 array 一樣, 只是[]內沒有數字就會是 slice
 
@@ -19,6 +18,7 @@ func main() {
 	s02 := a[:3]  // 生成 slice 為指向 a 的 0~2, 從第一個元素[0]開始
 	s03 := a[:]   // 生成 slice 為指向 a 的 0~3, 從第一個元素[0]開始, 到最後一個元素[3]結束
 	a[1] = 0      // 所以這邊 a[1] 改變了, 上面幾個 slice 也會改變
+
 	utils.WrapPrint("slice 型態", func() {
 		fmt.Printf("a  :%v type(%T)\n", a, a)
 		fmt.Printf("s12:%v type(%T) len(%d) cap(%d)\n", s12, s12, len(s12), cap(s12))
@@ -35,13 +35,13 @@ func main() {
 		fmt.Printf("a[:] == s03:%v\n", reflect.DeepEqual(a[:], s03))
 	})
 
-	s5 := make([]int, 2, 3)
+	s5 := make([]int, 2, 3) // 長度 2, 容量 3
 	utils.WrapPrint("make(slice)", func() {
 		fmt.Printf("s5:%v type(%T) len(%d) cap(%d)\n", s5, s5, len(s5), cap(s5))
 	})
 
 	s6 := append(s5, 1) // 回傳的 slice 添加了元素 1, 但還是指向同個 array
-	s7 := append(s5, 2) // 這邊又再添加一次元素, 其實還是對同個 array 添加, 但 s5 添加是覆蓋第 3 個位置, 因此把 s6[2] 覆蓋掉
+	s7 := append(s5, 2) // 這邊又再添加一次元素, 其實還是對同個 array 添加, 但 s5 再添加是覆蓋第 3 個位置, 因此 s6[2] 的設定就會被蓋掉
 	s6[0] = 9
 	s7[1] = 8
 	utils.WrapPrint("append(slice) <= cap", func() {

@@ -6,16 +6,16 @@ import (
 )
 
 func main() {
-	// map 宣告方式, key 可以任何定義了 "==" 及 "!=" 操作的型別
+	// map 宣告方式, key 可以是任何定義了 "==" 及 "!=" 操作的型別
 	// map 是無序的, 長度不定, 同 slice 一樣是參考型別
 	m := map[int]string{5566: "a", 9527: "b"} // 宣告同時賦值
 	var m1 map[string]int                     // 這樣宣告是 nil, 就像 java 宣告物件後沒給東西是 null 一樣的概念
-	m1 = make(map[string]int)                 // 這樣才有初始化一個 map
+	m1 = make(map[string]int)                 // 這樣才是初始化一個可操作的 map
 
 	// 雖然都是map, 型態不相同
 	utils.WrapPrint("map 型態", func() {
-		fmt.Printf("m  type: %T\n", m)
-		fmt.Printf("m1 type: %T\n", m1)
+		fmt.Printf("m  type: %T = %v\n", m, m)
+		fmt.Printf("m1 type: %T = %v\n", m1, m1) // %v 會將 nil 以該型別的空內容呈現, 例如 map[string]int 就會顯示 map[]
 	})
 
 	utils.WrapPrint("map 賦值", func() {
@@ -26,7 +26,7 @@ func main() {
 	})
 
 	utils.WrapPrint("map 刪除", func() {
-		delete(m1, "b") // 刪除 XXX 居然沒回傳值??
+		delete(m1, "b") // XXX 居然沒回傳值??
 		printMap("m1", m1)
 	})
 

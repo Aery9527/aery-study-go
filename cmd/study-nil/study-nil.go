@@ -28,13 +28,16 @@ func main() {
 	fmt.Println("error == nil:", err == nil)
 
 	var ptr2 *int = nil
-	var i2 interface{} = ptr2 // i2 因為是裝了 "prt2" 這個指標, 所以它不是 nil
+	var i2 any = ptr2 // i2 因為是裝了 "prt2" 這個指標, 所以它不是 nil
 	fmt.Println("interface with nil pointer == nil:", i2 == nil)
 
-	// 永遠都有值, 不允許 nil 判斷
-	// var a int    // 基本型別
-	// var b Person // struct
-	// var c [3]int // array
+	// 其餘型別都會有"零值"的初始值, 所以不允許 nil 判斷
+	//var a int
+	//a_nil := a == nil // 不允許判斷
+	//var b Person
+	//b_nil := b == nil // 不允許判斷
+	//var c [3]int
+	//c_nil := c == nil // 不允許判斷
 }
 
 type Person struct {

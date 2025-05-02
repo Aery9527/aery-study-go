@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// struct 就是一組資料的概念
+
 // 無法直接給預設值, 若真要給預設值則寫一個 func 當作 constructor 給定預設值並返回
 type person struct {
 	name string
@@ -44,7 +46,7 @@ func main() {
 		}
 		showOrder(person1, person2)
 		showOrder(person1, person3)
-		showOrder(person1, *person4)
+		showOrder(person1, *person4) // 再加上 * 代表取值, 因為 showOrder 那邊接收的 person 型別, 所以要取值
 	})
 
 	utils.WrapPrint("showModifyStruct", func() {
@@ -56,7 +58,7 @@ func main() {
 		showModifyStruct(person1)
 		showModifyStruct(person2)
 		showModifyStruct(person3)
-		showModifyStruct(*person4) // 因為 func 那邊接收的 person 型別, 所以是 pass by value, 因此不會改到原本的值
+		showModifyStruct(*person4)
 	})
 
 	student1 := student{person{"May", 9}, "haha-School", 3}

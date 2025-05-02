@@ -42,7 +42,7 @@ func showSwitch(day string) {
 	}
 
 	score := 85
-	switch { // 也可以不帶參數當作一般 if 使用, 只是某些情況下看起來會更整潔
+	switch { // 也可以不帶參數當作一般 if 使用, 讓某些情況下看起來更整潔
 	case score >= 90:
 		fmt.Println("優等")
 	case score >= 60:
@@ -87,8 +87,8 @@ func showFor() {
 
 	// 遍歷 map
 	dict := map[string]int{"a": 1, "b": 2}
-	for key, val := range dict {
-		fmt.Print(key, val, ",")
+	for key, value := range dict {
+		fmt.Print(key, value, ",")
 	}
 	fmt.Println()
 
@@ -111,7 +111,7 @@ func showGoto() int {
 		goto ERROR
 	}
 
-	// do something with file
+	// do something with a file
 
 	file.Close()
 	return 0

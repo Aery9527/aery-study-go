@@ -6,17 +6,18 @@ import (
 	"reflect"
 )
 
-// "~" 是 go 1.18 新增的語法, 用來表示型別約束, 就像是 java 的 Object 繼承概念
+// 1.18 開始支援泛型, 有比 java 更彈性的泛型設計
+// "~" 是用來表示型別約束, 就像是 java 的 Object 繼承概念
 
 type customString string
 type customInt int
 type customFloat float64
 
 type keyConstraint interface {
-	~string | int // 允許 "string同系" 或 "只能是int" 的別名
+	~string | int // 允許 "string同系(子類)" 或 "只能是int" 的別名
 }
 type valueConstraint interface {
-	float64 | ~int // 允許 float64 或 int 同系的別名
+	float64 | ~int // 允許 "只能是float64" 或 "int同系(子類)" 的別名
 }
 
 // Stack struct 泛型寫法

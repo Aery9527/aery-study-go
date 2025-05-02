@@ -5,10 +5,17 @@ import (
 	"fmt"
 )
 
-// func 沒有多載, 要從 func name 區分
-// 這個設計我覺得比 java 多載性質好, 因為可以強制說明 func 功能區別
+// func 可以有多個回傳值, 沒有多載,
+// 這個設計我覺得比 java 多載性質好,
+// 因為可以強制開發者使用 func name 將功能說清楚
 
-type funny func(name string) int // 定義一個型別為匿名函數
+// 定義一個 func 型別
+type funny func(name string) int
+
+// 不定引數使用方式, 基本上跟 java 一樣,
+// 不定引數要放在最後一個, 前面可以放其他引數,
+// 雖然進到 func 內是 slice, 但呼叫時不能丟 slice 進去, 這點跟 java 可以接受 array 不一樣
+type funnyMany func(showTimes int, names ...string) int
 
 func main() {
 	//_, remainder := divide(10, 3) // 使用 _ 可以忽略回傳值
@@ -42,7 +49,16 @@ func main() {
 		fmt.Printf("x: %d\n", x)
 	})
 
-	showAeryFunny(singAndDance) // 定義一個型別為匿名函數, 只要 func 的參數跟回傳值相同, 就可以直接當作 var 在 func 之間傳遞
+	utils.WrapPrint("func init()", func() {
+		showAeryFunny(singAndDance) // 定義一個型別為匿名函數, 只要 func 的參數跟回傳值相同, 就可以直接當作 var 在 func 之間傳遞
+	})
+
+	utils.WrapPrint("func init()", func() {
+		showAeryFunnyMany(func(showTimes int, names ...string) int {
+			fmt.Printf("%v 愛情動作片演出 %d 次\n", names, showTimes)
+			return 0
+		})
+	})
 }
 
 func divide(a, b int) (int, int) {
@@ -59,7 +75,7 @@ func split(sum int) (x, y int) { // 採用命名回傳值, 若只有最後一個
 func deferTest() (x int, y string) {
 	// defer 類似 java 的 finally, 在當前 func 結束後, 但真正 return 前執行
 	// 只可以影響 "命名回傳值" 的內容, 多個 defer 採 LIFO(後進先出) 執行
-	// 使用情境:想統一加 log/metrics(但不影響回傳值)/安全清理資源/優雅地處理error/recover
+	// defer 使用情境: 統一加 log/metrics(但不影響回傳值)/安全清理資源/優雅地處理error/recover
 	defer func() { // 後執行
 		x += 10
 		y += "?"
@@ -82,13 +98,19 @@ func errorTest() (string, error) {
 }
 
 func singAndDance(name string) int {
-	score := 100
-	utils.WrapPrint("func init()", func() {
-		fmt.Printf("%s唱歌加跳舞獲得了%d分\n", name, score)
-	})
-	return score
+	fmt.Printf("%s 唱歌加跳舞\n", name)
+	return 100
 }
 
 func showAeryFunny(f funny) {
-	f("Aery")
+	name := "Aery"
+	cost := f(name)
+	fmt.Printf("%s 酬勞報價 %d\n", name, cost)
+}
+
+func showAeryFunnyMany(f funnyMany) {
+	artists := []string{"Aery", "Rion", "Yuma"}
+	//f(20, artists) // 雖然引數是 slice, 但不能這樣傳入, 必須向下面這樣展開
+	cost := f(20, artists...)
+	fmt.Printf("%v 酬勞報價 %d\n", artists, cost)
 }
