@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"strings"
 )
 
 // 大寫開頭就是 public, 小寫開頭就是 private, 僅有這種兩種可見性
@@ -57,12 +56,10 @@ func main() {
 }
 
 func showVar(args ...any) { // 1.18 新增 any, 是 interface{} 的別名, 這樣寫比較簡潔, 所以也可以寫 interface{}
-	result := make([]string, len(args))
-	for index, arg := range args {
-		result[index] = fmt.Sprintf("%v(%T)", arg, arg)
-	}
 	utils.WrapPrint("傳入參數", func() {
-		fmt.Printf(format+"[%s]\n", "args", strings.Join(result, ", "))
+		for index, arg := range args {
+			fmt.Printf(format+"[%d] %v (%T)\n", "args", index, arg, arg)
+		}
 	})
 
 	a := 123        // block scope 才能使用 := 語法糖, package scope 不能使用

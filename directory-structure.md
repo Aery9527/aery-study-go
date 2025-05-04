@@ -1,7 +1,7 @@
 # 目錄結構
 
 此目錄結構參考 [project-layout](https://github.com/golang-standards/project-layout), \
-除少數 go 本身定義的 floder 有其含意外, \
+除少數 go 本身定義的 folder (**/internal**, **/vendor**) 有特定功能外, \
 其餘都是社群約定俗成的結構.
 
 | 目錄                                      | 說明                   | 備註                          |

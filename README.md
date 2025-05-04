@@ -7,12 +7,11 @@
 
 ### 概觀
 
-- [目錄結構](./directory-structure.md) : 完全不同於 java 的 **src/main/java**, **src/test/java** 結構, test 是跟 source 放在一起的
-- [go module](./go-module.md) : 就類似 java 的 maven 或 gradle 的相依管理
-- [go test](./go-test.md) : 測試的寫法, 也類似 java 的 JUnit, 但 go 是內建的 <待整理>
+- [目錄結構](directory-structure.md) : 完全不同於 java 的 **src/main/java**, **src/test/java** 結構, test 是跟 source 放在一起的
+- [go module](go-module.md) : 就類似 java 的 maven 或 gradle 的相依管理
 - go 對於沒用到的 var, import package 會報錯, 強制開發者清理無用的 code 保持乾淨
 - 僅有 public/private 兩個可見性 scope (以 package 為單位), 命名時用開頭字母大小寫決定: 大寫開頭是 public / 小寫開頭是 private
-- go在 `func` 間傳遞變數是 **pass by value**, 只有傳指標才會有 reference 的效果
+- go 在 `func` 間傳遞變數是 **pass by value**, 只有傳指標才會有 reference 的效果
 - 命名原則與習慣
     - 要能明確表達 **職責** 與 **行為**
     - 善用語意明確縮寫, HTTP/ID/URL 應大寫: `UserID`/`HTTPClient`
@@ -21,9 +20,9 @@
     - interface 習慣用 **領域(domain) + 行為命名 + er 結尾:`FileReader`/`OrderCreator`**, 內包含精簡且功能明確的 func 為佳, 勿包含太多概念的 func
     - folder/package/file 社群偏好小寫+無底線命名, 但官方沒有明文禁止使用底線. [更多概念看這裡:study_package.md](package.md)
 - 禁止循環相依
-    - go 是靜態編譯語言, 會事先掃過所有套件的 import, 決定依賴圖(dependency graph), 若有循環無法決定誰先編譯誰
-    - 而且實務上循環相依意味著設計不良, 代表功能過度耦合, 需要將依賴的部分拆至另外 package
-    - 另外像 `init()` 這種 compiler 代勞優先執行的 func 也會在循環相依的狀況下會有非預期情況發生
+    - go 編譯會事先掃過所有套件的 import, 決定依賴圖 (dependency graph), 若有循環會無法決定誰先編譯誰
+    - 且實務上循環相依意味著設計不良, 代表功能過度耦合, 需要將依賴的部分拆至另外 package
+    - 另外像 `init()` 這種 compiler 代勞優先執行的 `func` 也會在循環相依的狀況下會有非預期情況發生
 
 ---
 
@@ -31,15 +30,15 @@
 
 - [main()](cmd/study-main/study-main.go) : go 的進入點
 - [basic var](cmd/study-var/study-var.go) : 基本型別
-    - [point](cmd/study-point/study-point.go) : 指標 <待整理>
+    - [point](cmd/study-point/study-point.go) : 指標
     - [nil](cmd/study-nil/study-nil.go) : 類似 java 的 null, 表示一個型別是"零值"或"空值"的概念
     - [var iota](cmd/study-iota/study-iota.go) : 類似 java enum 的概念
     - [var array](cmd/study-array/study-array.go) : 同 java array, 長度不可變
     - [var slice](cmd/study-slice/study-slice.go) : 類似 java ArrayList, 長度可變
     - [var map](cmd/study-map/study-map.go) : 同 java HashMap(無序)
     - [var struct{}](cmd/study-struct/study-struct.go) : 類似 java 16 的 record
-    - [interface](cmd/study-interface/study-interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
-    - [make()](cmd/study-make/study-make.go) : 用於建立 slice/map/channel 這三種型別的記憶體分配, 回傳的實際上是一個 struct
+    - [var interface](cmd/study-interface/study-interface.go) : 類似 java 的 interface, 但概念上並不是包裝"物件", 而是包裝"行為"
+    - [make()](cmd/study-make/study-make.go) : 用於建立 slice/map/channel 這三種型別的記憶體分配, 回傳東西的實際上是一個 struct
     - [new()](cmd/study-new/study-new.go) : 用於分配所有型別的記憶體分配, 回傳一個指標
     - [reflect](cmd/study-reflect/study-reflect.go) : runtime 取得變數型別相關資訊, 框架的基礎大多依賴 reflect 機制
     - [type](cmd/study-type/study-type.go) : 是種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
@@ -50,6 +49,10 @@
 - [global variable cover](cmd/study-global-variable-cover/study-global-variable-cover.go) : 全域變數覆蓋問題
 - [package](cmd/study-package/study-package.go) 概念就像 java 一個 "class" 的 scope, 也就是說散在各檔案的東西只要是同個 package 就是同個
   scope. [更多概念說明](package.md)
+- [godoc](cmd/study-godoc/study-godoc.go) : 類似 javadoc 的文件撰寫規範, 但沒有原生工具生成像 javadoc 的一份 html,
+  但有官方的線上工具 [pkg.go.dev](https://pkg.go.dev/) 自動處理
+- [go test](cmd/study-test/study-test_test.go) : 內建類似 junit 的測試,
+  也可使用第三方工具 [[github.com/stretchr/testify/mock](https://github.com/stretchr/testify)] [[golang/mock](https://github.com/golang/mock)]
 - [goroutine](cmd/study-goroutine/study-goroutine.go) : go 的多工處理 (multithreading)
     - [channel](cmd/study-channel/study-channel.go) : goroutine 之間的溝通管道
     - [select](cmd/study-select/study-select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
@@ -101,7 +104,7 @@
 | runtime | 自帶 runtime          | 依賴 JVM                  | - go 自帶 runtime, 但不需要額外安裝, 因為編譯時會直接打包進 binary 裡面 <br/> - java 需要安裝 JVM, 並且要確保版本相容性                                                                                                                                                                                                                                                                |
 | GC      | 在自帶的 runtime 裡      | 依賴 JVM                  | 狀況同上                                                                                                                                                                                                                                                                                                                                              |
 | 速度      | AOT                 | JIT                     | - go 透過 AOT 提前準備好一切, 第一次編譯好直接使用<br/> - java 透過 JIT 才跑得快, 但相對的啟動就慢                                                                                                                                                                                                                                                                                 |
-| 記憶體     | 自動調節, OS 能給多少就能吃到多少 | 透過 `-Xmx` -`Xms` 限制上下用量 | 不過 go 可以透過內部程式設定 `debug.SetMemoryLimit(512 << 20) // 限制為 512MB`                                                                                                                                                                                                                                                                                   |
+| 記憶體     | 自動調節, OS 能給多少就能吃到多少 | 透過 `-Xmx` -`Xms` 限制上下用量 | - 不過 go 可以透過內部程式設定 `debug.SetMemoryLimit(512 << 20) // 限制為 512MB`<br/> - 當設置了 `SetMemoryLimit` 且用量達標, go 會優雅執行退出的流程, 否則當 OS 無法供應記憶體則會觸發 oom killer 刪除整個 process                                                                                                                                                                                   |
 
 ### 多工體質 Go vs Java
 

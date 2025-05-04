@@ -6,6 +6,7 @@ import (
 )
 
 // struct 就是一組資料的概念
+// struct 若要直接使用 == 或 != 比對語法, 那麼其 field 都必須是可比對的型別
 
 // 無法直接給預設值, 若真要給預設值則寫一個 func 當作 constructor 給定預設值並返回
 type person struct {

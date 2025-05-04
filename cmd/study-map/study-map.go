@@ -5,6 +5,10 @@ import (
 	"fmt"
 )
 
+// Java 的 Map 有多種實作應付不同情境, HashMap/TreeMap/LinkedHashMap 等
+// Go 看似只給了一種 map[K]V, 但底層實作是經過精心優化的 "哈希表(hash table)", 足以應對大多數情境
+// 所以若有特殊需求情境(例如有序 map), 則需要自己封裝或使用第三方套件達成
+
 func main() {
 	// map 宣告方式, key 可以是任何定義了 "==" 及 "!=" 操作的型別
 	// map 是無序的, 長度不定, 同 slice 一樣是參考型別
