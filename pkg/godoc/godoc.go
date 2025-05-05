@@ -11,7 +11,7 @@ Package godoc 展示 godoc 寫法, XXX 這邊不知道為啥一定要 Package �
 
 - 但支援內部程式碼連結 [Sample]
 */
-package godoc
+package godoc // 這裡的說明會被 doc.go 給蓋掉
 
 // Sample public func 必須以 func name 開頭否則 IDE 會警告
 func Sample() {

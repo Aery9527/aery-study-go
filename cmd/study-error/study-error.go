@@ -39,5 +39,8 @@ func goPanic() {
 }
 
 func goError() (int, error) {
+	// 錯誤訊息有規範
+	// 1.開頭不能是大寫字母(因為錯誤通常是被包在其他上下文中, 不需要大寫)
+	// 2.不能用標點符號結尾, 例如："." "!" "?"
 	return 9527, fmt.Errorf("error")
 }

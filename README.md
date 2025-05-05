@@ -44,7 +44,7 @@
     - [type](cmd/study-type/study-type.go) : 是種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
     - [generics](cmd/study-generics/study-generics.go) : 在 `[]` 內定義泛型, EX: `func funcName[K string, V any](m map[K]V)`
 - [func(){}](cmd/study-func/study-func.go) : 如何定義函數與使用
-- [error handling](cmd/study-error/study-error.go) : 錯誤處理
+- [error handling](cmd/study-error/study-error.go) : 錯誤處理, 其錯誤訊息有一些需要遵守的[規範](https://go.dev/wiki/Errors)
 - [process control](cmd/study-process/study-process.go) : 流程控制 (if, switch, for, goto)
 - [global variable cover](cmd/study-global-variable-cover/study-global-variable-cover.go) : 全域變數覆蓋問題
 - [package](cmd/study-package/study-package.go) 概念就像 java 一個 "class" 的 scope, 也就是說散在各檔案的東西只要是同個 package 就是同個
