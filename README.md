@@ -110,14 +110,15 @@
 
 ### 多工體質 Go vs Java
 
-|             | go                                                         | java                                                       |
-|-------------|------------------------------------------------------------|------------------------------------------------------------|
-| 語法          | `go function()`                                            | `new Thread().start()`                                     |
-| 效能          | 協程, 開銷低, 由 go runtime 調度                                   | OS thread, 開銷大. 但 jdk 21 的 virtual thread 也是協程模式, 開銷也降低了很多 |
-| 同步          | channel                                                    | synchronized, Lock, Future, BlockingQueue                  | 
-| 協調/溝通       | channel, select                                            | wait/notify, Future, ExecutorService, BlockingQueue        | 
-| thread pool | 自行實作 或 [第三方 lib (ants)](https://github.com/panjf2000/ants) | ExecutorService, ThreadPoolExecutor                        | 
-| 讓出 CPU 時間片  | `runtime.Gosched()`                                        | `Thread.yield()`                                           | 
+|                   | go                                                                                                                                                                                      | java                                                                                                                          |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| 語法                | `go function()`                                                                                                                                                                         | `new Thread().start()`                                                                                                        |
+| 效能                | 協程, 開銷低, 由 go runtime 調度                                                                                                                                                                | OS thread, 開銷大. 但 jdk 21 的 virtual thread 也是協程模式, 開銷也降低了很多                                                                    |
+| 同步                | channel                                                                                                                                                                                 | synchronized, Lock, Future, BlockingQueue                                                                                     | 
+| 協調/溝通             | channel, select                                                                                                                                                                         | wait/notify, Future, ExecutorService, BlockingQueue                                                                           | 
+| thread pool       | 自行實作 或 [第三方 lib (ants)](https://github.com/panjf2000/ants)                                                                                                                              | ExecutorService, ThreadPoolExecutor                                                                                           | 
+| 讓出 CPU 時間片        | `runtime.Gosched()`                                                                                                                                                                     | `Thread.yield()`                                                                                                              |
+| Memory Visibility | - goroutine 無 thread-local cache, 也就是說沒有 JVM 層級的 cache, 但仍有 CPU cache 硬體層級的快取影響可見性 <br/> - 使用 `sync.Mutex`, `sync/atomic`, `channel` 同步可見性 <br/> - 原子操作 `sync/atomic`, `atomic.Pointer` | - Thread-local Cache or CPU cache <br/> - 使用 `synchronized`, `volatile` 同步可見性 <br/> - 原子操作 `AtomicInteger`, `compareAndSet` 等 |
 
 - 為什麼 go 還需要 thread pool? 協程不是交給 go runtime 協調就好了嗎?
     - goroutine 是很輕沒錯, 但每個 goroutine 啟動時還是會佔用 stack(預設 2KB 起跳, 動態增長), 加上 runtime 調度與 context switch 等, 量多大一樣會OOM
