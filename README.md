@@ -59,8 +59,9 @@
     - [select](cmd/study-select/study-select.go) : 多個 channel 的選擇器, 當多個 channel 都 block 時, 會等待直到某個 channel 被 unblock
     - [context](cmd/study-context/study-context.go) : 用來在多個 goroutine 之間傳遞 cancel 或 timeout 訊號用的, 其本質上是一個 chain
     - [goroutine-pool](cmd/study-goroutine-pool/study-goroutine-pool.go) : 實現一個簡單的 goroutine pool 當作練習
-    - [lock]() <待整理>
-    - [atomic]() <待整理>
+    - [atomic](cmd/study-atomic/study-atomic.go) : `sync/atomic` 套件提供所有"int"系列的原子操作(對指標操作), 通常用於計數器/旗標等簡單變數情境
+    - [once](cmd/study-once/study-once.go) : `sync.Once` 套件提供原子性一次性的 func 執行操作, 這個 func 會在第一次使用時執行, 之後就不會再執行了
+    - [lock](cmd/study-lock/study-lock.go) :
 
 | 關鍵字                                                   | 功能                                            | java 與之對應的                                 |
 |-------------------------------------------------------|-----------------------------------------------|--------------------------------------------|

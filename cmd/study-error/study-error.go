@@ -4,7 +4,10 @@ import "fmt"
 
 // go 沒有像 java 一樣的 try-catch 錯誤處理機制
 // 而是依賴 func 的多個回傳值, 用回傳的 error 型別來表示錯誤
-// 然後 panic(這個就像 java 的 throw 了) 和 recover 機制是最後手段, 正常流程不應該出現
+
+// 而 panic(這個就像 java 的 throw 了) 和 recover 機制是最後手段, 正常流程不應該出現
+// 因為在任何一個 goroutine 中, 如果發生 panic 沒有被 recover, 整個 process 會直接中斷, exit code 是 2
+// 所以 panic 會是"超級嚴重的錯誤", 程度比 java OutOfMemoryError 還要嚴重的概念
 
 func main() {
 	defer func() {

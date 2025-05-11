@@ -19,7 +19,6 @@ func main() {
 	parentCtx = context.Background()               // 一個空的 context, 基本是用來組裝 context chain 的頭
 
 	utils.WrapPrint("withValue", withValue)
-	utils.WrapPrint("withValue", withValue)
 	utils.WrapPrint("withTimeout", withTimeout)
 	utils.WrapPrint("withoutCancel", withoutCancel)
 
