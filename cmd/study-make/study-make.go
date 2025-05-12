@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"fmt"
 )
 
@@ -20,7 +20,7 @@ func main() {
 		    cap		int				// 容量
 		}
 	*/
-	utils.WrapPrint("make(slice)", func() {
+	where.WrapPrint("make(slice)", func() {
 		s := make([]int, 3, 5)
 		s[0] = 1
 		s[1] = 2
@@ -41,7 +41,7 @@ func main() {
 			extra		*mapextra
 		}
 	*/
-	utils.WrapPrint("make(map)", func() {
+	where.WrapPrint("make(map)", func() {
 		m := make(map[string]int)
 		m["apple"] = 5
 		m["banana"] = 10
@@ -62,7 +62,7 @@ func main() {
 		lock     mutex
 	}
 	*/
-	utils.WrapPrint("make(chan)", func() {
+	where.WrapPrint("make(chan)", func() {
 		ch := make(chan int, 2)
 		ch <- 42
 		ch <- 100

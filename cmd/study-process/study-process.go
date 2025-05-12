@@ -1,16 +1,16 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"fmt"
 	"os"
 )
 
 func main() {
-	utils.WrapPrint("showIf", func() { showIf(10, func() int { return 1 }) })
-	utils.WrapPrint("showSwitch", func() { showSwitch("Blue Monday") })
-	utils.WrapPrint("showFor", showFor)
-	utils.WrapPrint("showGoto", func() { showGoto() })
+	where.WrapPrint("showIf", func() { showIf(10, func() int { return 1 }) })
+	where.WrapPrint("showSwitch", func() { showSwitch("Blue Monday") })
+	where.WrapPrint("showFor", showFor)
+	where.WrapPrint("showGoto", func() { showGoto() })
 }
 
 func showIf(x int, y func() int) {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"errors"
 	"fmt"
 	"reflect"
@@ -56,7 +56,7 @@ func main() {
 }
 
 func showVar(args ...any) { // 1.18 新增 any, 是 interface{} 的別名, 這樣寫比較簡潔, 所以也可以寫 interface{}
-	utils.WrapPrint("傳入參數", func() {
+	where.WrapPrint("傳入參數", func() {
 		for index, arg := range args {
 			fmt.Printf(format+"[%d] %v (%T)\n", "args", index, arg, arg)
 		}
@@ -64,13 +64,13 @@ func showVar(args ...any) { // 1.18 新增 any, 是 interface{} 的別名, 這�
 
 	a := 123        // block scope 才能使用 := 語法糖, package scope 不能使用
 	b := float64(a) // 轉型
-	utils.WrapPrint("轉型", func() {
+	where.WrapPrint("轉型", func() {
 		fmt.Printf(format+"%d (%T)\n", "a", a, a) // %T 直接顯示型態
 		fmt.Printf(format+"%f (%T)\n", "b", b, b)
 	})
 
 	// reflect.TypeOf 取得型態
-	utils.WrapPrint("取得型態", func() {
+	where.WrapPrint("取得型態", func() {
 		fmt.Printf(format+"%d (%s)\n", "_int", _int, reflect.TypeOf(_int))
 		fmt.Printf(format+"%d (%s)\n", "_uint", _uint, reflect.TypeOf(_uint))
 		fmt.Printf(format+"%d (%s)\n", "_byte", _byte, reflect.TypeOf(_byte))                // type 是 uint8, 因為 byte 是 uint8 的別名
@@ -82,13 +82,13 @@ func showVar(args ...any) { // 1.18 新增 any, 是 interface{} 的別名, 這�
 456
 	789
 000`
-	utils.WrapPrint("多行字串", func() {
+	where.WrapPrint("多行字串", func() {
 		fmt.Printf(format+"%v (%s)\n", "s", s, reflect.TypeOf(s))
 	})
 
 	// error 型別
 	err := errors.New("oops")
-	utils.WrapPrint("錯誤型別", func() {
+	where.WrapPrint("錯誤型別", func() {
 		fmt.Println(err)
 	})
 }

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"fmt"
 )
 
@@ -17,31 +17,31 @@ func main() {
 	m1 = make(map[string]int)                 // 這樣才是初始化一個可操作的 map
 
 	// 雖然都是map, 型態不相同
-	utils.WrapPrint("map 型態", func() {
+	where.WrapPrint("map 型態", func() {
 		fmt.Printf("m  type: %T = %v\n", m, m)
 		fmt.Printf("m1 type: %T = %v\n", m1, m1) // %v 會將 nil 以該型別的空內容呈現, 例如 map[string]int 就會顯示 map[]
 	})
 
-	utils.WrapPrint("map 賦值", func() {
+	where.WrapPrint("map 賦值", func() {
 		printMap("m1", m1)
 		m1["a"] = 1 // 賦值
 		m1["b"] = 2
 		printMap("m1", m1)
 	})
 
-	utils.WrapPrint("map 刪除", func() {
+	where.WrapPrint("map 刪除", func() {
 		delete(m1, "b") // XXX 居然沒回傳值??
 		printMap("m1", m1)
 	})
 
-	utils.WrapPrint("map 2 個回傳值", func() {
+	where.WrapPrint("map 2 個回傳值", func() {
 		a, aExist := m1["a"] // map 有兩個回傳值
 		b, bExist := m1["b"]
 		fmt.Printf("m1[%s] = %d %t\n", "a", a, aExist)
 		fmt.Printf("m1[%s] = %d %t\n", "b", b, bExist)
 	})
 
-	utils.WrapPrint("map 指標", func() {
+	where.WrapPrint("map 指標", func() {
 		m2 := m1
 		m2["c"] = 3 // 與 m1 指向同一個 map, 所以 m1 也會改變
 		printMap("m1", m1)

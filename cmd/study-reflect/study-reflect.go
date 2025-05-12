@@ -1,14 +1,14 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"fmt"
 	"reflect"
 )
 
 func main() {
-	utils.WrapPrint("int", func() { showType(9527) })
-	utils.WrapPrint("string", func() { showType("9527") })
+	where.WrapPrint("int", func() { showType(9527) })
+	where.WrapPrint("string", func() { showType("9527") })
 }
 
 func showType(a any) {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"fmt"
 )
 
@@ -16,16 +16,16 @@ func main() {
 	var x int = 10
 	var p *int = &x // p 是指向 x 的指標
 
-	utils.WrapPrint("原始值", func() { fmt.Println(*p) })
+	where.WrapPrint("原始值", func() { fmt.Println(*p) })
 	modify(p)
-	utils.WrapPrint("修改後", func() { fmt.Println(*p) })
+	where.WrapPrint("修改後", func() { fmt.Println(*p) })
 
 	ps := &Person{Name: "Aery"}
 	ps.Name = "Goddess" // 這邊 go 自動幫解指標, 不用(*ps).Name
-	utils.WrapPrint("struct", func() { fmt.Println(ps.Name) })
+	where.WrapPrint("struct", func() { fmt.Println(ps.Name) })
 
 	var i interface{} = x // interface 不是指標
-	utils.WrapPrint("interface", func() {
+	where.WrapPrint("interface", func() {
 		fmt.Println(i == *p) // true
 		fmt.Println(i == p)  // false
 	})

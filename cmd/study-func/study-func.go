@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"fmt"
 )
 
@@ -22,22 +22,22 @@ type funnyMany func(showTimes int, names ...string) int
 func main() {
 	//_, remainder := divide(10, 3) // 使用 _ 可以忽略回傳值
 	quotient, remainder := divide(10, 3)
-	utils.WrapPrint("func init()", func() {
+	where.WrapPrint("func init()", func() {
 		fmt.Printf("商: %d, 餘數: %d\n", quotient, remainder)
 	})
 
 	a, b := split(10)
-	utils.WrapPrint("func init()", func() {
+	where.WrapPrint("func init()", func() {
 		fmt.Printf("x: %d, y: %d\n", a, b)
 	})
 
 	d1, d2 := deferTest()
-	utils.WrapPrint("func init()", func() {
+	where.WrapPrint("func init()", func() {
 		fmt.Printf("d1: %d, d2: %s\n", d1, d2)
 	})
 
 	result, err := errorTest()
-	utils.WrapPrint("func init()", func() {
+	where.WrapPrint("func init()", func() {
 		if err != nil {
 			fmt.Printf("error: %v\n", err)
 		} else {
@@ -47,15 +47,15 @@ func main() {
 
 	x := 1
 	add1(&x) // 傳址, 參考型別
-	utils.WrapPrint("func init()", func() {
+	where.WrapPrint("func init()", func() {
 		fmt.Printf("x: %d\n", x)
 	})
 
-	utils.WrapPrint("func init()", func() {
+	where.WrapPrint("func init()", func() {
 		showAeryFunny(singAndDance) // 定義一個型別為匿名函數, 只要 func 的參數跟回傳值相同, 就可以直接當作 var 在 func 之間傳遞
 	})
 
-	utils.WrapPrint("func init()", func() {
+	where.WrapPrint("func init()", func() {
 		showAeryFunnyMany(func(showTimes int, names ...string) int {
 			fmt.Printf("%v 愛情動作片演出 %d 次\n", names, showTimes)
 			return 0

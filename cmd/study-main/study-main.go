@@ -4,6 +4,7 @@ package main
 
 import (
 	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"flag"
 	"fmt"
 	"os"
@@ -19,7 +20,7 @@ import (
 // 每個檔案的 init() 執行順序依照 Go compiler 決定的 import 順序來定
 // 主要用途就是為了模組初始化, 不需要特別去呼叫它, Go compiler 會搞定
 func init() {
-	utils.WrapPrint("func init()", func() {
+	where.WrapPrint("func init()", func() {
 		fmt.Println("~~~yo~~~yo~~~yo~~~")
 	})
 }
@@ -29,7 +30,7 @@ func main() {
 	//os.Args[0] = "Aery Handsome~~~" // XXX 這居然是可變的!?
 	cmdArgs := os.Args // 取得 cmd 傳進來的參數, [0] 永遠是當前執行檔案完整路徑與名稱, [1] 開始才是傳進來的參數 (這樣挺不錯的, 夠直覺)
 	lineSeparator := utils.GetSystemLineSeparator()
-	utils.WrapPrint("參數列表", func() {
+	where.WrapPrint("參數列表", func() {
 		fmt.Printf("%s\n", strings.Join(cmdArgs, lineSeparator))
 	})
 
@@ -39,12 +40,12 @@ func main() {
 	age := flag.Int("age", 9527, "年齡")
 	//height := flag.Int("age", 0, "身高") // 所有出現的參數都要接下否則會報錯, 因為 flag 屬於"強驗證型"套件
 	flag.Parse() // 執行解析, 將值塞到上述的指標裡
-	utils.WrapPrint("flag.Parse()", func() {
+	where.WrapPrint("flag.Parse()", func() {
 		fmt.Printf("嗨 %d 歲的 %s ❤️\n", *age, *name)
 	})
 
 	// 取得所有解析的 cmd args, 但一定要先執行過 flag.Parse(), 否則啥屁也拿不到
-	utils.WrapPrint("flag.VisitAll()", func() {
+	where.WrapPrint("flag.VisitAll()", func() {
 		flag.VisitAll(func(f *flag.Flag) {
 			fmt.Printf("flag(-%s) value(%s) usage(%s)\n", f.Name, f.Value, f.Usage)
 		})

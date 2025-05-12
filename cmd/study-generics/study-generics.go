@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"fmt"
 	"reflect"
 )
@@ -26,42 +26,42 @@ type Stack[T any] struct {
 }
 
 func main() {
-	utils.WrapPrint("receiveAnySlice[string]", func() { receiveAnySlice([]string{"a", "b", "c"}) })
-	utils.WrapPrint("receiveAnySlice[int]", func() { receiveAnySlice([]int{1, 2, 3, 4}) })
+	where.WrapPrint("receiveAnySlice[string]", func() { receiveAnySlice([]string{"a", "b", "c"}) })
+	where.WrapPrint("receiveAnySlice[int]", func() { receiveAnySlice([]int{1, 2, 3, 4}) })
 
-	utils.WrapPrint("receiveMap", func() {
+	where.WrapPrint("receiveMap", func() {
 		receiveMap(map[string]any{
 			"Aery": 1,
 			"Rion": "A",
 		})
 	})
 
-	utils.WrapPrint("receiveConstraintMap map[customString]customInt", func() {
+	where.WrapPrint("receiveConstraintMap map[customString]customInt", func() {
 		receiveConstraintMap(map[customString]customInt{
 			"Aery": 1,
 			"Rion": 2,
 		})
 	})
-	utils.WrapPrint("receiveConstraintMap map[int]customInt", func() {
+	where.WrapPrint("receiveConstraintMap map[int]customInt", func() {
 		receiveConstraintMap(map[int]customInt{ // key 不能用 customInt
 			10: 1,
 			20: 2,
 		})
 	})
-	utils.WrapPrint("receiveConstraintMap map[int]float64", func() {
+	where.WrapPrint("receiveConstraintMap map[int]float64", func() {
 		receiveConstraintMap(map[int]float64{ // value 不能用 customFloat
 			10: 1.1,
 			20: 2.2,
 		})
 	})
-	utils.WrapPrint("receiveConstraintMap map[string]int", func() {
+	where.WrapPrint("receiveConstraintMap map[string]int", func() {
 		receiveConstraintMap(map[string]int{
 			"Aery": 1,
 			"Rion": 2,
 		})
 	})
 
-	utils.WrapPrint("IsEqual[int]", func() { IsEqual(1, 2) })
+	where.WrapPrint("IsEqual[int]", func() { IsEqual(1, 2) })
 }
 
 // receiveAnySlice 接收泛型, T 可以是任意型別

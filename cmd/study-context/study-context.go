@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"context"
 	"errors"
 	"fmt"
@@ -18,12 +18,12 @@ func main() {
 	var parentCtx context.Context = context.TODO() // "我之後再想要不要用 context"用的, 通常是占位用(不建議長期留在正式碼裡)
 	parentCtx = context.Background()               // 一個空的 context, 基本是用來組裝 context chain 的頭
 
-	utils.WrapPrint("withValue", withValue)
-	utils.WrapPrint("withTimeout", withTimeout)
-	utils.WrapPrint("withoutCancel", withoutCancel)
+	where.WrapPrint("withValue", withValue)
+	where.WrapPrint("withTimeout", withTimeout)
+	where.WrapPrint("withoutCancel", withoutCancel)
 
-	utils.WrapPrint("withCancel", func() { withCancel(context.WithCancel(parentCtx)) })
-	utils.WrapPrint("WithCancelCause", func() { // 跟 WithCancel 差別在於可以附 cancel cause
+	where.WrapPrint("withCancel", func() { withCancel(context.WithCancel(parentCtx)) })
+	where.WrapPrint("WithCancelCause", func() { // 跟 WithCancel 差別在於可以附 cancel cause
 		ctx, cancel := context.WithCancelCause(parentCtx)
 		withCancel(ctx, func() { cancel(errors.New("kerker")) })
 	})
@@ -32,11 +32,11 @@ func main() {
 	duration := func() time.Time { // 當前時間過 delay ms 的一個時刻
 		return time.Now().Add(time.Duration(delay) * time.Millisecond)
 	}
-	utils.WrapPrint("withDeadline", func() {
+	where.WrapPrint("withDeadline", func() {
 		ctx, cancel := context.WithDeadline(parentCtx, duration())
 		withDeadline(ctx, cancel, delay)
 	})
-	utils.WrapPrint("withDeadlineCause", func() { // 跟 WithCancel 差別在於可以附 cancel cause
+	where.WrapPrint("withDeadlineCause", func() { // 跟 WithCancel 差別在於可以附 cancel cause
 		ctx, cancel := context.WithDeadlineCause(parentCtx, duration(), errors.New("kerker"))
 		withDeadline(ctx, cancel, delay)
 	})

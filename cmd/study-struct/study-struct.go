@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aery-study-go/pkg/utils"
+	"aery-study-go/pkg/where"
 	"fmt"
 )
 
@@ -40,7 +40,7 @@ func main() {
 	person4 := new(person) // 指標
 	person4.age, person4.name = 21, "Yuka"
 
-	utils.WrapPrint("showOrder", func() {
+	where.WrapPrint("showOrder", func() {
 		showOrder := func(p1, p2 person) {
 			older, diff := older(p1, p2)
 			fmt.Printf("%v vs %v, %student1 is older by %d years\n", p1, p2, older.name, diff)
@@ -50,7 +50,7 @@ func main() {
 		showOrder(person1, *person4) // 再加上 * 代表取值, 因為 showOrder 那邊接收的 person 型別, 所以要取值
 	})
 
-	utils.WrapPrint("showModifyStruct", func() {
+	where.WrapPrint("showModifyStruct", func() {
 		showModifyStruct := func(p person) {
 			fmt.Printf("%v defore modifySlice\n", p)
 			modifyStruct(p)
@@ -67,12 +67,12 @@ func main() {
 	student1.person.name += "?" // 明確存取 person.name
 	student1.age = 10           // 存取 student 內的 age
 	student1.person.age = 11    // 存取 person 內的 age
-	utils.WrapPrint("struct 的繼承", func() {
+	where.WrapPrint("struct 的繼承", func() {
 		fmt.Printf("student: %v\n", student1)
 	})
 
 	// func 也有同上 struct 繼承一樣 scope 概念
-	utils.WrapPrint("func 的繼承", func() {
+	where.WrapPrint("func 的繼承", func() {
 		fmt.Printf("person1.string()         : %s\n", person1.string())
 		fmt.Printf("student1.string()        : %s\n", student1.string())
 		fmt.Printf("student1.person.string() : %s\n", student1.person.string())
