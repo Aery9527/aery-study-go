@@ -37,8 +37,9 @@ func main() {
 	// r2 ┴─> w1 ─> r3
 	rwMutex := sync.RWMutex{} // XXX test target
 	go routine("r1", func(name string) {
-		rwMutex.RLocker() // 取得讀鎖
-		defer rwMutex.RUnlock()
+		locker := rwMutex.RLocker() // 取得讀鎖
+		locker.Lock()
+		defer locker.Unlock()
 
 		where.WrapPrint(name, func() { fmt.Println("lock") })
 		latch1 <- struct{}{}
@@ -46,8 +47,9 @@ func main() {
 		where.WrapPrint(name, func() { fmt.Println("unlock") })
 	})
 	go routine("r2", func(name string) {
-		rwMutex.RLocker() // 取得讀鎖
-		defer rwMutex.RUnlock()
+		locker := rwMutex.RLocker() // 取得讀鎖
+		locker.Lock()
+		defer locker.Unlock()
 
 		where.WrapPrint(name, func() { fmt.Println("lock") })
 		latch1 <- struct{}{}
@@ -80,8 +82,9 @@ func main() {
 			latch4 <- struct{}{}
 		}()
 
-		rwMutex.RLocker() // 取得讀鎖
-		defer rwMutex.RUnlock()
+		locker := rwMutex.RLocker() // 取得讀鎖
+		locker.Lock()
+		defer locker.Unlock()
 
 		where.WrapPrint(name, func() { fmt.Println("lock") })
 		where.WrapPrint(name, func() { fmt.Println("unlock") })
