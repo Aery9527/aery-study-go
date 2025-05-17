@@ -62,6 +62,8 @@
     - [sync.Once](cmd/study-once/study-once.go) : 提供原子性一次性的 func 執行操作, 這個 func 會在第一次使用時執行, 之後就不會再執行了
     - [sync.Mutex](cmd/study-mutex/study-mutex.go) : 互斥鎖, 同時只有一個 goroutine 可以操作這個鎖, 其他 goroutine 會在邊界 block 等待
     - [sync.RWMutex](cmd/study-rwmutex/study-rwmutex.go) : 讀寫鎖, 允許多個 goroutine 同時讀取, 但寫入時會 block 其他讀取與寫入的 goroutine
+    - [sync.WaitGroup](cmd/study-waitgroup/study-waitgroup.go) : 用來等待一群 goroutine 結束, 同 java 的 `CountDownLatch`
+    - [sync.Cond](cmd/study-cond/study-cond.go) : 條件通知, 主要用在生產者/消費者模式中, 生產者用來通知消費者, 類似 java 的 `wait/notify`
 
 | 關鍵字                                                   | 功能                                            | java 與之對應的                                 |
 |-------------------------------------------------------|-----------------------------------------------|--------------------------------------------|
