@@ -48,6 +48,10 @@ type passionate interface { // 熱情
 	playful() string
 }
 
+// receiver 是否使用指標是兩種不同面向的實作, 會影響要如何指定給 interface
+// dog 是 value receiver, 所以指定給 interface animal 時, 會複製一份 dog 給 interface
+// cat 是 pointer receiver, 所以指定給 interface animal 時, 會複製一份 cat 的指標給 interface
+
 // dog func
 func (d dog) speak() string {
 	return "汪汪"
@@ -57,10 +61,10 @@ func (d dog) playful() string {
 }
 
 // cat func
-func (c cat) speak() string {
+func (c *cat) speak() string {
 	return "喵喵"
 }
-func (c cat) playful() string {
+func (c *cat) playful() string {
 	return "打哈欠"
 }
 
@@ -82,7 +86,7 @@ func main() {
 	dog := dog{}
 	cat := cat{}
 	makeAnimalSpeak(dog)
-	makeAnimalSpeak(cat)
+	makeAnimalSpeak(&cat)
 }
 
 func makeAnimalSpeak(a animal) {
@@ -90,13 +94,13 @@ func makeAnimalSpeak(a animal) {
 
 	// 將介面還原為原本的型別
 	d, isDog := a.(dog) // 轉型, 要轉換的型別必須是子類
-	c, isCat := a.(cat)
+	c, isCat := a.(*cat)
 	fmt.Printf("isDog:%t(%T), isCar:%t(%T)\n", isDog, d, isCat, c)
 
 	switch t := a.(type) { // 這個寫法只能在 switch 裡面使用
 	case dog:
 		fmt.Println("這是狗", t)
-	case cat:
+	case *cat:
 		fmt.Println("這是貓", t)
 	default:
 		fmt.Println("未知生物", t)
