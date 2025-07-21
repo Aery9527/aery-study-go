@@ -19,11 +19,11 @@ func main() {
 	}()
 
 	fmt.Println("a1")
-	_, err := goError() // 錯誤依賴回傳值處理
+	_, err := goError0() // 錯誤依賴回傳值處理
 	if err != nil {
-		fmt.Println("a2")
+		fmt.Printf("a2 : %v\n", err)
 	} else {
-		fmt.Println("a3")
+		fmt.Printf("a3 : %v\n", err)
 	}
 
 	fmt.Println("b1")
@@ -41,9 +41,14 @@ func goPanic() {
 	fmt.Println("c2") // 不會執行
 }
 
-func goError() (int, error) {
+func goError0() (int, error) {
+	_, err := goError1()
+	return 0, fmt.Errorf("goError0: %w", err) // 包裝錯誤, %w 可以讓錯誤被包裝起來, 方便後續處理
+}
+
+func goError1() (int, error) {
 	// 錯誤訊息有規範
 	// 1.開頭不能是大寫字母(因為錯誤通常是被包在其他上下文中, 不需要大寫)
 	// 2.不能用標點符號結尾, 例如："." "!" "?"
-	return 9527, fmt.Errorf("error")
+	return 9527, fmt.Errorf("error1")
 }

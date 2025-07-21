@@ -45,6 +45,12 @@
     - [generics](cmd/study-generics/study-generics.go) : 在 `[]` 內定義泛型, EX: `func funcName[K string, V any](m map[K]V)`
 - [func(){}](cmd/study-func/study-func.go) : 如何定義函數與使用
 - [error handling](cmd/study-error/study-error.go) : 錯誤處理, 其錯誤訊息有一些需要遵守的[規範](https://go.dev/wiki/Errors)
+- [cockroachdb/errors](cmd/study-error-cockroach/study-error-cockroach.go) : 增強版錯誤處理庫, 提供自動 stack trace、錯誤包裝、錯誤類型判斷等功能
+    - 主要功能: `errors.New()`, `errors.Wrap()`, `errors.Is()`, `errors.As()`, `errors.WithHint()`, `errors.Join()` 等
+    - **stack trace 路徑顯示**: 預設會保留完整開發路徑, 使用 `go build -trimpath` 編譯可隱藏絕對路徑
+        - 無 `-trimpath`: `C:/Users/nulll/GolandProjects/aery-study-go/cmd/study-error-cockroach/study-error-cockroach.go:27`
+        - 有 `-trimpath`: `./study-error-cockroach.go:27` (主程式) 或 `aery-study-go/pkg/errortest/errortest.go:9` (pkg/internal)
+        - 第三方依賴庫的內部路徑會完全隱藏, 只顯示你程式碼的調用位置
 - [process control](cmd/study-process/study-process.go) : 流程控制 (if, switch, for, goto)
 - [global variable cover](cmd/study-global-variable-cover/study-global-variable-cover.go) : 全域變數覆蓋問題
 - [package](cmd/study-package/study-package.go) 概念就像 java 一個 "class" 的 scope, 也就是說散在各檔案的東西只要是同個 package 就是同個
