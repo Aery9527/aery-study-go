@@ -1,7 +1,7 @@
 # go 學習筆記
 
 - 主要參考 [這裡](https://willh.gitbook.io/build-web-application-with-golang-zhtw) 還有對 AI 提問整理出來的內容
-- 由於本身熟捻 java, 因此會與 java 對比語法/觀念內容
+- 由於本身熟捻 java, 因此會與 java 對比語法/觀念內容, 去挖出 golang 更多細節
 
 ---
 
