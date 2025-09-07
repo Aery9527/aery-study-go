@@ -17,6 +17,6 @@ package godoc // 這裡的說明會被 doc.go 給蓋掉
 func Sample() {
 }
 
-// 123456 private func 由於不會對外公開, 因此不遵循 func name 開頭似乎也不會被 IDE 警告
+// 123456 private func 由於不會對外公開, 因此不遵循 func name 開頭也不會被 IDE 警告
 func sample() {
 }

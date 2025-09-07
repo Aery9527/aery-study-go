@@ -44,6 +44,7 @@
     - [type](cmd/study-type/study-type.go) : 是種可以為任何型別添加別名的宣告, EX: `type age int` 就可以宣告 age 型別的變數 `var aery age = 18`
     - [generics](cmd/study-generics/study-generics.go) : 在 `[]` 內定義泛型, EX: `func funcName[K string, V any](m map[K]V)`
 - [func(){}](cmd/study-func/study-func.go) : 如何定義函數與使用
+- [closure](cmd/study-closure/study-closure.go) : 閉包, 對於外部引用的變數是 pointer 的概念
 - [error handling](cmd/study-error/study-error.go) : 錯誤處理, 其錯誤訊息有一些需要遵守的[規範](https://go.dev/wiki/Errors)
 - [cockroachdb/errors](cmd/study-error-cockroach/study-error-cockroach.go) : 增強版錯誤處理庫, 提供自動 stack trace、錯誤包裝、錯誤類型判斷等功能
     - 主要功能: `errors.New()`, `errors.Wrap()`, `errors.Is()`, `errors.As()`, `errors.WithHint()`, `errors.Join()` 等

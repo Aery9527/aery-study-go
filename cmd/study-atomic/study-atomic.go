@@ -7,7 +7,9 @@ import (
 )
 
 func main() {
-	var counter int64
+	// 兩種寫法等價
+	var counter int64 // Go 1.19-
+	//counter := atomic.Int64{} // Go 1.19+
 
 	where.WrapPrint("Load", func() {
 		n := atomic.LoadInt64(&counter)

@@ -15,8 +15,8 @@ import (
 // 傳遞一些系統用的資訊, 例如自定義的 log id, goroutines id, trace id 等等
 
 func main() {
-	var parentCtx context.Context = context.TODO() // "我之後再想要不要用 context"用的, 通常是占位用(不建議長期留在正式碼裡)
-	parentCtx = context.Background()               // 一個空的 context, 基本是用來組裝 context chain 的頭
+	parentCtx := context.TODO()      // "我之後再想要不要用 context"用的, 通常是占位用(不建議長期留在正式碼裡)
+	parentCtx = context.Background() // 一個空的 context, 基本是用來組裝 context chain 的頭
 
 	where.WrapPrint("withValue", withValue)
 	where.WrapPrint("withTimeout", withTimeout)
@@ -44,13 +44,18 @@ func main() {
 
 // withValue 攜帶 kv 的 context
 func withValue() {
+	type heightKey struct {
+	}
+
 	// 值只能進不能改
 	ctx1 := context.WithValue(context.Background(), "name", "Aery")
 	ctx2 := context.WithValue(ctx1, "age", 18)
-	fmt.Println(ctx2)
-	name := ctx2.Value("name").(string)
-	age := ctx2.Value("age").(int)
-	fmt.Println(name + ":" + strconv.Itoa(age))
+	ctx3 := context.WithValue(ctx2, heightKey{}, 183) // 使用私有 struct{} 當 key, 可以避免 string 這種大眾化 key 被覆蓋
+	fmt.Println(ctx3)
+	name := ctx3.Value("name").(string)
+	age := ctx3.Value("age").(int)
+	height := ctx3.Value(heightKey{}).(int)
+	fmt.Println(name + ":" + strconv.Itoa(age) + ":" + strconv.Itoa(height))
 }
 
 // withTimeout 自動 timeout context
