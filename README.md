@@ -71,6 +71,7 @@
     - [sync.RWMutex](cmd/study-rwmutex/study-rwmutex.go) : 讀寫鎖, 允許多個 goroutine 同時讀取, 但寫入時會 block 其他讀取與寫入的 goroutine
     - [sync.WaitGroup](cmd/study-waitgroup/study-waitgroup.go) : 用來等待一群 goroutine 結束, 同 java 的 `CountDownLatch`
     - [sync.Cond](cmd/study-cond/study-cond.go) : 條件通知, 主要用在生產者/消費者模式中, 生產者用來通知消費者, 類似 java 的 `wait/notify`
+- [study-yaml](cmd/study-yaml) 使用 [gopkg.in/yaml.v3](https://github.com/go-yaml/yaml/tree/v3) 讀取 yaml 範例
 
 | 關鍵字                                                   | 功能                                            | java 與之對應的                                 |
 |-------------------------------------------------------|-----------------------------------------------|--------------------------------------------|

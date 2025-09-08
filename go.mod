@@ -18,6 +18,7 @@ go 1.24
 require (
 	github.com/cockroachdb/errors v1.12.0
 	go.mongodb.org/mongo-driver v1.17.4
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

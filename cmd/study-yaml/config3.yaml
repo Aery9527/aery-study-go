@@ -1,0 +1,49 @@
+# 特殊標籤和自訂結構範例
+database:
+  connections:
+    primary:
+      host: "172.93.1.170"
+      port: 5432
+      username: "admin"
+      password: "secret123"
+      ssl_mode: "require"
+    replica:
+      host: "172.93.1.171"
+      port: 5432
+      username: "readonly"
+      password: "readonly123"
+      ssl_mode: "prefer"
+
+# 時間和持續時間
+timeouts:
+  connect: "5s"
+  read: "30s"
+  write: "10s"
+  idle: "5m"
+
+# 指標類型範例（可選值）
+optional_config:
+  feature_flags:
+    new_ui: true
+    beta_features: null
+    experimental: false
+  limits:
+    max_connections: 100
+    rate_limit: null
+    timeout: "1m"
+
+# 聯合類型和多態
+services:
+  - type: "http"
+    name: "web-server"
+    config:
+      host: "0.0.0.0"
+      port: 8080
+      ssl: false
+  - type: "grpc"
+    name: "api-server"
+    config:
+      host: "0.0.0.0"
+      port: 9090
+      tls_cert: "/path/to/cert.pem"
+      tls_key: "/path/to/key.pem"

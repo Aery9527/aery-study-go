@@ -1,0 +1,23 @@
+# 基本類型和陣列範例
+basic:
+  name: "測試應用程式"
+  version: "1.0.0"
+  debug: true
+  port: 8080
+  timeout: 30.5
+
+# 陣列和切片
+servers:
+  - host: "192.168.1.100"
+    port: 3306
+  - host: "192.168.1.101"
+    port: 3307
+
+# 字串陣列
+tags:
+  - "production"
+  - "database"
+  - "web"
+
+# 數字陣列
+ports: [80, 443, 8080, 9000]

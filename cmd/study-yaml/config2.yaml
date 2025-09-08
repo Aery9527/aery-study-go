@@ -1,0 +1,43 @@
+# 複雜結構體和嵌套範例
+user:
+  id: 12345
+  profile:
+    name: "張三"
+    email: "zhang@example.com"
+    age: 30
+    address:
+      country: "台灣"
+      city: "台北"
+      street: "忠孝東路一段"
+      zipcode: "100"
+  preferences:
+    language: "zh-TW"
+    timezone: "Asia/Taipei"
+    notifications:
+      email: true
+      sms: false
+      push: true
+
+# Map 類型範例
+environment:
+  development:
+    database_url: "localhost:5432"
+    redis_url: "localhost:6379"
+    log_level: "debug"
+  production:
+    database_url: "prod.db.com:5432"
+    redis_url: "prod.cache.com:6379"
+    log_level: "info"
+
+# 介面和任意類型
+metadata:
+  created_at: "2024-01-15T10:30:00Z"
+  tags:
+    - type: "service"
+      value: "web"
+    - type: "team"
+      value: "backend"
+  custom_fields:
+    project_id: 999
+    budget: 50000.0
+    active: true
